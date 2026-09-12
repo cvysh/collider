@@ -46,9 +46,7 @@ def test_invariant_mass_back_to_back_massless_pair():
 
 def test_invariant_mass_single_massless_object_is_zero():
     """One object with E == |p| has zero invariant mass."""
-    m = invariant_mass(
-        ak.Array([[30.0]]), ak.Array([[0.0]]), ak.Array([[0.0]]), ak.Array([[30.0]])
-    )
+    m = invariant_mass(ak.Array([[30.0]]), ak.Array([[0.0]]), ak.Array([[0.0]]), ak.Array([[30.0]]))
     assert m[0] == pytest.approx(0.0, abs=1e-6)
 
 

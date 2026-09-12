@@ -81,3 +81,34 @@ public deployment. Acknowledgement of the ATLAS Collaboration is required.
 - ATLAS uproot framework — https://opendata.atlas.cern/docs/13TeVDoc/frameworks/uproot
 - ATLAS outreach uproot examples — https://github.com/atlas-outreach-data-tools/atlas-outreach-Python-uproot-framework-13tev
 - "Open Data at ATLAS: Bringing TeV collisions to the World" — https://arxiv.org/html/2502.21133v1
+
+---
+
+## Files in use
+
+### `ODEO_FEB2025_v0_2muons_data15_periodD.2muons.root`
+
+| Field | Value |
+|---|---|
+| Parent record | [93921](https://opendata.cern.ch/record/93921) — Run 2 2015+2016 collision data, `2muons` skim |
+| DOI | `10.7483/OPENDATA.ATLAS.6VGH.HN41` |
+| Data kind | **measured** (real collision data, no truth label) |
+| Size | 34,181,982 bytes, `adler32:17f281d8` — both verified after download |
+| Events | 124,935 |
+| Tree | `analysis`, 119 branches |
+| Downloaded | 2026-09-12 |
+
+Parent skim is 16 files / 19.6 GB / 72,563,712 events. We use the smallest file.
+
+### Verified properties of this release
+
+Established by inspection, not assumption:
+
+- **Units are GeV.** Median `lep_pt` 17.9, median `lep_e` 39.4. The older 2020
+  13 TeV release used MeV; tutorials written against it divide by 1000.
+- `lep_type` is the absolute PDG id: `11` = electron, `13` = muon.
+- Real data is identifiable by `mcWeight == 1.0` and `category` beginning
+  `"data"`. In real data `channelNumber` carries the run number.
+- **The portal ignores HTTP `Range` requests** (returns `200` with full
+  content-length rather than `206`). Remote columnar reads with uproot
+  therefore fail against `opendata.cern.ch`; files must be downloaded.
