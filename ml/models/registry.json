@@ -1,0 +1,50 @@
+{
+  "models": [
+    {
+      "model_id": "xgb-0.1.0",
+      "task": "signal-vs-background",
+      "framework": "xgboost==3.4.1",
+      "artifact": "xgb-0.1.0.json",
+      "feature_set_version": "fourlepton-v1",
+      "features": [
+        "m_z1",
+        "m_z2",
+        "m_z2_over_m_z1",
+        "lep_pt_0",
+        "lep_pt_1",
+        "lep_pt_2",
+        "lep_pt_3",
+        "lep_abs_eta_max",
+        "pt_4l",
+        "delta_phi_zz",
+        "delta_eta_zz",
+        "met",
+        "jet_n",
+        "n_muons"
+      ],
+      "threshold": 0.924568,
+      "training": {
+        "signal": "ggH125->ZZ->4l (MC, channel 345060)",
+        "background": "ZZ->4l (MC, Sherpa 700600/700587/700591)",
+        "luminosity_pb": 36000.0,
+        "split_seed": 20260912,
+        "n_train": 79171,
+        "class_balance": "rebalanced to 1:1; physical ratio is 1:37.5",
+        "trees_used": 131,
+        "threshold_selected_on": "validation split"
+      },
+      "metrics": {
+        "test_roc_auc": 0.9882,
+        "test_significance": 3.095
+      },
+      "limitations": [
+        "Trained on simulation only. Real collision data carries no truth label, so a score on measured data cannot be verified.",
+        "Signal is gluon-gluon fusion production only; VBF, VH and ttH are not included.",
+        "Background is the irreducible ZZ->4l only. Fake and non-prompt leptons, which dominate real data before selection, are not modelled.",
+        "m_4l is deliberately excluded from the features to avoid sculpting the mass spectrum.",
+        "Score is a discriminant, not a probability: the training class balance is a choice, not a physical prior.",
+        "Background N_eff in the 115-130 GeV window is 14, a ~27% uncertainty. Significance differences are not resolvable."
+      ]
+    }
+  ]
+}

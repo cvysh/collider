@@ -16,9 +16,13 @@ data/processed/*
 # physics oracle cannot run in CI without it.
 !tests/fixtures/*.npz
 
-# ---- Model artifacts (tracked by registry, stored in object storage) ----
+# ---- Model artifacts ----
+# Text artifacts (XGBoost JSON plus registry metadata, ~530 KB) are committed
+# so the API, its tests and CI run from a clone. Binary or large formats below
+# stay out and belong in object storage.
 ml/models/*
 !ml/models/.gitkeep
+!ml/models/*.json
 *.pkl
 *.joblib
 *.onnx

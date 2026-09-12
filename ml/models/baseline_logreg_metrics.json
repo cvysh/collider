@@ -1,0 +1,68 @@
+{
+  "model": "logistic_regression",
+  "seed": 20260912,
+  "features": [
+    "m_z1",
+    "m_z2",
+    "m_z2_over_m_z1",
+    "lep_pt_0",
+    "lep_pt_1",
+    "lep_pt_2",
+    "lep_pt_3",
+    "lep_abs_eta_max",
+    "pt_4l",
+    "delta_phi_zz",
+    "delta_eta_zz",
+    "met",
+    "jet_n",
+    "n_muons"
+  ],
+  "results": {
+    "train": {
+      "roc_auc": 0.9135561918784638,
+      "yield_signal_total": 15.666100780447094,
+      "yield_background_total": 599.3407083707227,
+      "significance_no_cut": 0.6371597010487388,
+      "best_threshold": 0.8453145227905488,
+      "best_significance": 1.3875073066247905,
+      "best_signal": 7.791949389560117,
+      "best_background": 29.043346670152715
+    },
+    "val": {
+      "roc_auc": 0.9150828810040563,
+      "yield_signal_total": 15.667997918651551,
+      "yield_background_total": 582.366792570786,
+      "significance_no_cut": 0.6463757502888159,
+      "best_threshold": 0.7018509255874901,
+      "best_significance": 1.5645694466247548,
+      "best_signal": 11.516290633176503,
+      "best_background": 50.47307414299948
+    },
+    "test": {
+      "roc_auc": 0.9109917836162976,
+      "yield_signal_total": 15.7278483355659,
+      "yield_background_total": 558.9801140867357,
+      "significance_no_cut": 0.6621453954733267,
+      "best_threshold": 0.7195754203469749,
+      "best_significance": 1.3652580739082534,
+      "best_signal": 11.290945642405015,
+      "best_background": 64.73375071905814
+    }
+  },
+  "coefficients": {
+    "m_z1": 0.8946761294204371,
+    "m_z2": -0.5773255824956133,
+    "m_z2_over_m_z1": 0.21595220496290515,
+    "lep_pt_0": -1.3980556473370298,
+    "lep_pt_1": -0.39116866959967994,
+    "lep_pt_2": -0.44465597316860284,
+    "lep_pt_3": -0.30655098235816164,
+    "lep_abs_eta_max": -0.3048273957483435,
+    "pt_4l": 1.7481571710570827,
+    "delta_phi_zz": -0.27051322252640886,
+    "delta_eta_zz": -0.3043467392153003,
+    "met": 0.19836173948758024,
+    "jet_n": -0.12184377515712919,
+    "n_muons": -0.07937750572384747
+  }
+}
