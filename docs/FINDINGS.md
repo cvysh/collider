@@ -428,3 +428,55 @@ intrinsically thin.
 
 **This is a permanent, documented limitation of the project, not a task
 pending completion.**
+
+---
+
+## 9. Honest track curvature is nearly invisible at LHC momenta
+
+**Module:** `collider.physics.trajectory` · **Test:** `tests/test_trajectory.py`
+· **Figure:** `figures/trajectories.png`
+
+A charged particle in the 2 T ATLAS solenoid follows a helix of radius
+`r = pt / (0.3·q·B)` metres. Across the 1.1 m inner detector:
+
+| pt (GeV) | radius | deviation from a straight ray |
+|---|---|---|
+| 1 | 1.67 m | 363 mm |
+| 5 | 8.3 m | 72 mm |
+| 10 | 16.7 m | 36 mm |
+| **45** | **75 m** | **8.1 mm** |
+| 90 | 150 m | 4.0 mm |
+
+**Our muons are 10–90 GeV.** A 45 GeV track deviates by 8 mm over 1.1 m —
+under 1% of its length. The dramatic spirals in famous event displays are
+sub-GeV particles, not the stiff tracks in this dataset.
+
+This is the reason curvature measures momentum at all: *less bend means more
+momentum*. A display showing a strongly curved 45 GeV muon is not showing a
+measured trajectory.
+
+### Two deviations that are easy to confuse
+
+For the same 45 GeV track:
+
+- **Sagitta** — deviation from the chord joining the endpoints: **2.0 mm**.
+  This is what a tracking detector measures.
+- **Deviation from the initial tangent** — what a renderer drawing a straight
+  ray from the interaction point would show: **8.1 mm**.
+
+The ratio is exactly 4, since one goes as `1 − cos(α)` and the other as
+`1 − cos(α/2)`. An early version of the test asserted the first value while
+measuring the second.
+
+### Rendering policy
+
+- Default is the **true helix**, `curvature_scale = 1.0`.
+- Exaggeration is available but must be **labelled as a visual aid** wherever
+  shown, never presented as the measured trajectory
+  (`SCIENTIFIC_INTEGRITY.md` §4).
+- The **sign** of the bend is genuine measured information at any scale:
+  positive and negative charges curve opposite ways. Panel (c) of the figure
+  shows the true separation and a labelled ×60 aid side by side.
+- Beyond 1.1 m the field is the toroid, not the solenoid, and this model stops
+  being valid. The module documents that limit rather than extrapolating
+  through it.
