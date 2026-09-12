@@ -107,6 +107,33 @@ appears instead is what the model genuinely used, and for a signal event that
 is dominated by `m_z2` — the off-shell Z, which is the physical signature of a
 125 GeV parent.
 
+## The analysis sequence
+
+The brief asks for comic-panel composition on major moments, and analysing an
+event is the major moment. This is the only place in the product that spends
+real animation budget.
+
+**It is a replay, not a computation.** Predictions are precomputed at export
+because they are deterministic for a fixed event, model and feature set
+(ADR-0002), and SPEC §35 forbids faking progress for an operation that has
+none. So nothing pretends to be working: each panel reveals a stage that
+genuinely ran, showing the values that stage produced, and the footer says so
+plainly.
+
+| Panel | Shows |
+|---|---|
+| 01 Selection | The real criteria this event passed |
+| 02 Reconstruction | Its actual derived masses |
+| 03 Features | 14 inputs, and why the mass is not among them |
+| 04 Discriminant | The score beside its threshold |
+| 05 Explanation | The top real SHAP contributions |
+
+The constraint made this better than a spinner. A progress bar conveys nothing;
+these panels say what the pipeline actually does.
+
+It is skippable, and under `prefers-reduced-motion` every panel lands at once.
+An animation nobody can escape is a usability failure however good it looks.
+
 ## Legibility corrections made during the pass
 
 Two decorations were dialled back after looking at them on screen, following

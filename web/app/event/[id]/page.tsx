@@ -4,7 +4,7 @@ import { ApiError, getEvent } from "@/lib/api";
 import { DataKindBadge } from "@/components/DataKindBadge";
 import { DerivedQuantities } from "@/components/DerivedQuantities";
 import { Narrator } from "@/components/Narrator";
-import { PredictionPanel } from "@/components/PredictionPanel";
+import { AnalysisPanel } from "@/components/AnalysisPanel";
 import { EventViewerPanel } from "@/components/viewer/EventViewerPanel";
 import { ProvenanceDrawer } from "@/components/ProvenanceDrawer";
 
@@ -105,7 +105,7 @@ export default async function EventPage({
             </section>
           )}
 
-          <PredictionPanel event={event} />
+          <AnalysisPanel event={event} />
           <ProvenanceDrawer provenance={event.provenance} eventId={event.event_id} />
         </div>
       </div>
