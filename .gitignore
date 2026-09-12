@@ -1,0 +1,49 @@
+# ---- Data: never commit CERN source data or derived bulk artifacts ----
+data/raw/
+data/interim/
+data/processed/
+*.root
+*.parquet
+*.h5
+*.hdf5
+*.npy
+*.npz
+
+# ---- Model artifacts (tracked by registry, stored in object storage) ----
+ml/models/*
+!ml/models/.gitkeep
+*.pkl
+*.joblib
+*.onnx
+*.pt
+*.pth
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+
+# ---- Node / Next.js ----
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+
+# ---- Env & secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- OS / editor ----
+.DS_Store
+.vscode/
+.idea/
