@@ -25,6 +25,7 @@ in place.
 
 from __future__ import annotations
 
+import json
 import os
 from functools import lru_cache
 from pathlib import Path
@@ -41,6 +42,7 @@ __all__ = ["app", "create_app"]
 
 DEFAULT_EVENTS_ROOT = Path("data/processed/events")
 DEFAULT_REGISTRY = Path("ml/models/registry.json")
+DEFAULT_DISTRIBUTIONS = Path("data/processed/distributions")
 
 # Immutable artifacts: cache hard. One year, and marked immutable so browsers
 # skip revalidation entirely.
@@ -78,6 +80,23 @@ class ModelInfo(BaseModel):
 @lru_cache(maxsize=1)
 def get_store() -> EventStore:
     return LocalEventStore(os.environ.get("COLLIDER_EVENTS_ROOT", DEFAULT_EVENTS_ROOT))
+
+
+@lru_cache(maxsize=1)
+def get_distributions() -> dict[str, dict]:
+    """Precomputed binned spectra, loaded once at startup.
+
+    Histograms are derived artifacts: deterministic for a fixed dataset and
+    binning, so they are computed by the pipeline rather than on request.
+    """
+    root = Path(os.environ.get("COLLIDER_DISTRIBUTIONS", DEFAULT_DISTRIBUTIONS))
+    if not root.exists():
+        return {}
+    out = {}
+    for path in root.glob("*.json"):
+        payload = json.loads(path.read_text())
+        out[payload["quantity"]] = payload
+    return out
 
 
 @lru_cache(maxsize=1)
@@ -137,6 +156,23 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=404, detail=f"unknown event {event_id!r}") from None
         response.headers["Cache-Control"] = IMMUTABLE_CACHE
         return payload
+
+    @app.get("/api/distributions/{quantity}")
+    def get_distribution(
+        quantity: str,
+        response: Response,
+        distributions: Annotated[dict[str, dict], Depends(get_distributions)],
+    ) -> dict:
+        """A precomputed binned spectrum.
+
+        Returned as-is rather than through a response model: the payload is a
+        pipeline artifact with its own schema_version, and re-declaring its
+        shape here would create a second definition to keep in step.
+        """
+        if quantity not in distributions:
+            raise HTTPException(status_code=404, detail=f"unknown distribution {quantity!r}")
+        response.headers["Cache-Control"] = INDEX_CACHE
+        return distributions[quantity]
 
     @app.get("/api/models", response_model=list[ModelInfo])
     def list_models(

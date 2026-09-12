@@ -78,3 +78,16 @@ export async function getEvent(id: string): Promise<EventPayload> {
 export async function listModels(): Promise<ModelInfo[]> {
   return get("/api/models");
 }
+
+/**
+ * A precomputed binned spectrum.
+ *
+ * Not in the generated types: the payload is a pipeline artifact carrying its
+ * own schema_version, so the API returns it as-is rather than re-declaring its
+ * shape server-side. The shape lives once, in MassSpectrum.
+ */
+export async function getDistribution(quantity: string) {
+  return get<import("@/components/MassSpectrum").Spectrum>(
+    `/api/distributions/${encodeURIComponent(quantity)}`,
+  );
+}

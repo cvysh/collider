@@ -35,6 +35,9 @@ export default function RootLayout({
             <Link href="/explore" className="text-sm text-muted hover:text-paper">
               Explore
             </Link>
+            <Link href="/physics" className="text-sm text-muted hover:text-paper">
+              The spectrum
+            </Link>
             <Link href="/about" className="text-sm text-muted hover:text-paper">
               How it works
             </Link>
