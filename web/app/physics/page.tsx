@@ -43,7 +43,7 @@ export default async function PhysicsPage() {
           [(sig / bkg).toFixed(3), "signal-to-background, integrated"],
         ].map(([value, label]) => (
           <div key={label} className="panel p-4">
-            <div className="tabular text-2xl text-mint">{value}</div>
+            <div className="tabular text-2xl text-portal">{value}</div>
             <div className="mt-1 text-xs text-dim">{label}</div>
           </div>
         ))}

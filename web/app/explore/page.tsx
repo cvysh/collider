@@ -70,8 +70,8 @@ export default async function Explore({
         </div>
       ) : (
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {data.events.map((event) => (
-            <EventCard key={event.event_id} event={event} />
+          {data.events.map((event, i) => (
+            <EventCard key={event.event_id} event={event} index={i} />
           ))}
         </div>
       )}

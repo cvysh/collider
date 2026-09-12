@@ -28,7 +28,7 @@ export function ProvenanceDrawer({
       <a
         key="rec"
         href={provenance.record_url}
-        className="text-cyan underline decoration-dotted"
+        className="text-toxic underline decoration-dotted"
         target="_blank"
         rel="noreferrer"
       >
@@ -47,7 +47,7 @@ export function ProvenanceDrawer({
       <button
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between p-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-mint/60"
+        className="flex w-full items-center justify-between p-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-portal/60"
       >
         <span className="text-xs uppercase tracking-wider text-dim">
           Data provenance
@@ -56,7 +56,7 @@ export function ProvenanceDrawer({
       </button>
 
       {open && (
-        <div className="border-t border-edge/60 p-4 pt-3">
+        <div className="border-t border-ink p-4 pt-3">
           <dl className="space-y-2 text-xs">
             {rows.map(([label, value]) => (
               <div key={label} className="grid grid-cols-[9rem_1fr] gap-2">

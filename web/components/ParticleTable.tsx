@@ -1,9 +1,9 @@
 import type { ReconstructedObject } from "@/lib/api";
 
 const TYPE_STYLE: Record<string, { label: string; colour: string }> = {
-  muon: { label: "μ", colour: "text-mint" },
-  electron: { label: "e", colour: "text-cyan" },
-  photon: { label: "γ", colour: "text-plasma" },
+  muon: { label: "μ", colour: "text-portal" },
+  electron: { label: "e", colour: "text-toxic" },
+  photon: { label: "γ", colour: "text-hazard" },
   jet: { label: "jet", colour: "text-muted" },
 };
 
@@ -35,7 +35,7 @@ export function ParticleTable({
           Reconstructed objects in this event, with momentum and angles
         </caption>
         <thead>
-          <tr className="border-b border-edge/70 text-left text-xs text-dim">
+          <tr className="border-b border-ink text-left text-xs text-dim">
             <th scope="col" className="px-3 py-2 font-normal">Object</th>
             <th scope="col" className="px-3 py-2 text-right font-normal">pT (GeV)</th>
             <th scope="col" className="px-3 py-2 text-right font-normal">η</th>
@@ -50,8 +50,8 @@ export function ParticleTable({
               <tr
                 key={o.id}
                 className={[
-                  "border-b border-edge/30 last:border-0",
-                  selectedId === o.id ? "bg-mint/10" : "",
+                  "border-b border-ink-soft/50 last:border-0",
+                  selectedId === o.id ? "bg-portal/10" : "",
                 ].join(" ")}
               >
                 <th scope="row" className="px-3 py-2 text-left font-normal">

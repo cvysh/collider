@@ -117,8 +117,10 @@ export function EventViewer({
 
   return (
     <div className="panel overflow-hidden">
-      <div ref={containerRef} className="h-[26rem] w-full" />
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-edge/60 px-3 py-2">
+      <div className="crt relative">
+        <div ref={containerRef} className="h-[26rem] w-full" />
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t-2 border-ink px-3 py-2">
         <p className="text-xs text-dim">
           Drag to rotate · scroll to zoom · click a track
         </p>
@@ -130,16 +132,16 @@ export function EventViewer({
               setExaggerated(e.target.checked);
               setToggled(true);
             }}
-            className="accent-mint"
+            className="switch"
           />
-          <span className={exaggerated ? "text-plasma" : "text-muted"}>
+          <span className={exaggerated ? "text-hazard" : "text-muted"}>
             Exaggerate curvature
             {exaggerated && <span className="ml-1 font-mono">(×60, visual aid)</span>}
           </span>
         </label>
       </div>
       {exaggerated && (
-        <p className="border-t border-plasma/30 bg-plasma/10 px-3 py-2 text-xs text-plasma">
+        <p className="border-t-2 border-ink bg-hazard/15 px-3 py-2 text-xs text-hazard">
           Curvature is exaggerated 60× and is not the measured trajectory. At
           these momenta real tracks deviate by millimetres.
         </p>

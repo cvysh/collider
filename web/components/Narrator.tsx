@@ -54,14 +54,14 @@ export function Narrator({
   const isA = entry.speaker === "A";
 
   return (
-    <DismissibleNote className={`panel-raised flex items-start gap-3 p-3 text-sm ${className}`}>
+    <DismissibleNote className={`panel-hi flex items-start gap-3 p-3 text-sm ${className}`}>
       <span
         aria-hidden
         className={[
           "mt-0.5 grid size-7 shrink-0 place-items-center rounded-full font-mono text-xs",
           isA
-            ? "bg-mint/15 text-mint ring-1 ring-mint/40"
-            : "bg-cyan/15 text-cyan ring-1 ring-cyan/40",
+            ? "bg-portal/15 text-portal ring-1 ring-portal/40"
+            : "bg-toxic/15 text-toxic ring-1 ring-toxic/40",
         ].join(" ")}
         title={isA ? "Senior scientist" : "Intern"}
       >

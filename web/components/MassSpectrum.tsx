@@ -14,9 +14,23 @@ import { useId, useState } from "react";
  * separation and contrast against the panel surface. Identity is never carried
  * by colour alone: both series are in the legend and in the table view.
  */
+/**
+ * Chart series steps, distinct from the brand accents.
+ *
+ * A brand colour and a chart colour do different jobs: the brand portal green
+ * (#9bcf4f) sits at lightness 0.79, outside the 0.48-0.67 band a dark-mode
+ * categorical palette needs, so the chart uses its own darker step of the same
+ * hue. Validated: lightness band, chroma floor, CVD separation (delta-E 23
+ * deutan / 12 tritan), normal-vision separation 27.8, contrast >= 3:1 against
+ * the panel surface.
+ *
+ * Tritan separation at 12 is above the 8 floor but below the 15 comfort mark,
+ * which is why both series are also in the legend and the table view -- colour
+ * never carries identity alone here.
+ */
 const COLOURS = {
-  background: "#2E9FD1",
-  signal: "#D97418",
+  background: "#8168B0",
+  signal: "#77A634",
 } as const;
 
 export interface Series {
@@ -114,7 +128,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
             type="checkbox"
             checked={logScale}
             onChange={(e) => setLogScale(e.target.checked)}
-            className="accent-mint"
+            className="switch"
           />
           <span className="text-muted">Log scale</span>
         </label>
@@ -141,7 +155,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
               x2={W - PAD.right}
               y1={y(t)}
               y2={y(t)}
-              stroke="#1d3340"
+              stroke="#2c4034"
               strokeWidth={1}
             />
           ))}
@@ -185,7 +199,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
                 x2={x(a.at)}
                 y1={PAD.top}
                 y2={PAD.top + plotH}
-                stroke="#7d94a1"
+                stroke="#93a894"
                 strokeWidth={1}
                 strokeDasharray="3 3"
                 opacity={0.55}
@@ -193,7 +207,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
               <text
                 x={x(a.at) + 4}
                 y={PAD.top + 10}
-                fill="#7d94a1"
+                fill="#93a894"
                 fontSize={9}
                 fontFamily="var(--font-mono)"
               >
@@ -208,7 +222,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
             x2={W - PAD.right}
             y1={y(logScale ? FLOOR : 0)}
             y2={y(logScale ? FLOOR : 0)}
-            stroke="#4d647f"
+            stroke="#5d7563"
             strokeWidth={1}
           />
           {yTicks.map((t) => (
@@ -217,7 +231,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
               x={PAD.left - 8}
               y={y(t) + 3}
               textAnchor="end"
-              fill="#7d94a1"
+              fill="#93a894"
               fontSize={10}
               fontFamily="var(--font-mono)"
             >
@@ -230,7 +244,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
               x={x(t)}
               y={H - PAD.bottom + 16}
               textAnchor="middle"
-              fill="#7d94a1"
+              fill="#93a894"
               fontSize={10}
               fontFamily="var(--font-mono)"
             >
@@ -241,7 +255,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
             x={PAD.left + plotW / 2}
             y={H - 6}
             textAnchor="middle"
-            fill="#7d94a1"
+            fill="#93a894"
             fontSize={10}
           >
             m₄ℓ [GeV]
@@ -250,7 +264,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
             x={14}
             y={PAD.top + plotH / 2}
             textAnchor="middle"
-            fill="#7d94a1"
+            fill="#93a894"
             fontSize={10}
             transform={`rotate(-90 14 ${PAD.top + plotH / 2})`}
           >
@@ -274,7 +288,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
       </div>
 
       {hover !== null && (
-        <div className="panel-raised mt-2 p-3 text-xs">
+        <div className="panel-hi mt-2 p-3 text-xs">
           <div className="tabular text-paper">
             {spectrum.edges[hover].toFixed(0)}–{spectrum.edges[hover + 1].toFixed(0)} GeV
           </div>
@@ -295,7 +309,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
               </div>
             ))}
             {background.n_eff && (
-              <div className="flex justify-between gap-4 border-t border-edge/60 pt-1">
+              <div className="flex justify-between gap-4 border-t border-ink pt-1">
                 <dt className="text-dim">background N_eff</dt>
                 <dd className="tabular text-muted">
                   {background.n_eff[hover].toFixed(1)}
@@ -330,7 +344,7 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
             </thead>
             <tbody>
               {spectrum.centres.map((c, i) => (
-                <tr key={c} className="border-t border-edge/30">
+                <tr key={c} className="border-t border-ink-soft/50">
                   <td className="tabular py-1 pr-3">
                     {spectrum.edges[i].toFixed(0)}–{spectrum.edges[i + 1].toFixed(0)}
                   </td>

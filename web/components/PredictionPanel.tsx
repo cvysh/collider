@@ -41,14 +41,14 @@ export function PredictionPanel({ event }: { event: EventPayload }) {
       <h2 className="text-xs uppercase tracking-wider text-dim">Model</h2>
 
       <div className="mt-3 flex items-baseline gap-3">
-        <span className="tabular text-4xl text-mint">{score.toFixed(3)}</span>
+        <span className="tabular text-4xl text-portal">{score.toFixed(3)}</span>
         <span className="text-xs text-dim">discriminant</span>
       </div>
 
       {/* Threshold marker on the bar: the score is never shown without it. */}
-      <div className="relative mt-3 h-2 rounded-full bg-panel-raised">
+      <div className="relative mt-3 h-2 rounded-full bg-panel-hi">
         <div
-          className="h-2 rounded-full bg-mint/70"
+          className="h-2 rounded-full bg-portal/70"
           style={{ width: `${Math.min(score, 1) * 100}%` }}
         />
         <div
@@ -70,7 +70,7 @@ export function PredictionPanel({ event }: { event: EventPayload }) {
         {event.truth_label && (
           <div className="flex justify-between">
             <dt className="text-dim">Truth label (simulation)</dt>
-            <dd className={disagrees ? "text-hot" : "text-muted"}>
+            <dd className={disagrees ? "text-alarm" : "text-muted"}>
               {event.truth_label}
             </dd>
           </div>
@@ -85,7 +85,7 @@ export function PredictionPanel({ event }: { event: EventPayload }) {
         </div>
       </dl>
 
-      <p className="mt-4 border-t border-edge/60 pt-3 text-xs leading-relaxed text-dim">
+      <p className="mt-4 border-t border-ink pt-3 text-xs leading-relaxed text-dim">
         A discriminant, not a probability. The training class balance was chosen,
         not measured, so this number is not the chance that the event is signal.
       </p>

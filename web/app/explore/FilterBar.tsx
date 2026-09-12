@@ -15,7 +15,7 @@ const OPTIONS: { label: string; value: DataKind | undefined }[] = [
  */
 export function FilterBar({ active }: { active?: DataKind }) {
   return (
-    <nav className="flex gap-1 rounded-lg border border-edge bg-panel/60 p-1">
+    <nav className="flex gap-1 rounded-lg border border-ink bg-panel/60 p-1">
       {OPTIONS.map(({ label, value }) => {
         const isActive = active === value;
         return (
@@ -26,7 +26,7 @@ export function FilterBar({ active }: { active?: DataKind }) {
             className={[
               "rounded-md px-3 py-1.5 text-xs transition-colors",
               isActive
-                ? "bg-mint/15 text-mint ring-1 ring-mint/40"
+                ? "bg-portal/15 text-portal ring-1 ring-portal/40"
                 : "text-muted hover:text-paper",
             ].join(" ")}
           >

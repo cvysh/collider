@@ -68,7 +68,7 @@ export default async function About() {
       <dl className="mt-8 grid gap-3 sm:grid-cols-4">
         {NUMBERS.map(([value, label]) => (
           <div key={label} className="panel p-4">
-            <dt className="tabular text-xl text-mint">{value}</dt>
+            <dt className="tabular text-xl text-portal">{value}</dt>
             <dd className="mt-1 text-xs text-dim">{label}</dd>
           </div>
         ))}
@@ -82,19 +82,19 @@ export default async function About() {
               {i < PIPELINE.length - 1 && (
                 <span
                   aria-hidden
-                  className="absolute left-[11px] top-6 h-full w-px bg-edge"
+                  className="absolute left-[11px] top-6 h-full w-px bg-ink-soft"
                 />
               )}
               <span
                 aria-hidden
-                className="relative mt-1 size-[23px] shrink-0 rounded-full border border-mint/50 bg-void text-center font-mono text-[11px] leading-[21px] text-mint"
+                className="relative mt-1 size-[23px] shrink-0 rounded-full border border-portal/50 bg-ground text-center font-mono text-[11px] leading-[21px] text-portal"
               >
                 {i + 1}
               </span>
               <div className="min-w-0">
                 <h3 className="text-sm text-paper">
                   {p.step}
-                  <span className="ml-2 font-mono text-xs text-mint/80">{p.detail}</span>
+                  <span className="ml-2 font-mono text-xs text-portal/80">{p.detail}</span>
                 </h3>
                 <p className="mt-1 text-xs leading-relaxed text-muted">{p.note}</p>
               </div>
@@ -139,7 +139,7 @@ export default async function About() {
               <ul className="mt-2 space-y-2">
                 {m.limitations.map((l) => (
                   <li key={l} className="flex gap-2 text-xs leading-relaxed text-muted">
-                    <span aria-hidden className="text-hot">—</span>
+                    <span aria-hidden className="text-alarm">—</span>
                     <span>{l}</span>
                   </li>
                 ))}
@@ -164,12 +164,12 @@ export default async function About() {
           inventing the missing features to force a number would be fabrication.
         </p>
         <div className="mt-4 flex flex-wrap gap-3 text-xs">
-          <Link href="/physics" className="text-mint hover:underline">
+          <Link href="/physics" className="text-portal hover:underline">
             See the mass spectrum →
           </Link>
           <a
             href="https://opendata.cern.ch/record/93910"
-            className="text-cyan hover:underline"
+            className="text-toxic hover:underline"
             target="_blank"
             rel="noreferrer"
           >

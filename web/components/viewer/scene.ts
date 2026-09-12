@@ -17,10 +17,10 @@ import * as THREE from "three";
 import { helixPoints, INNER_DETECTOR_RADIUS_M, type TrackInput } from "@/lib/trajectory";
 
 export const OBJECT_COLOURS: Record<string, number> = {
-  muon: 0x69f7c6,
-  electron: 0x39c9ff,
-  photon: 0xff9d3d,
-  jet: 0x7d94a1,
+  muon: 0x9bcf4f,
+  electron: 0x3fbfb0,
+  photon: 0xe8c547,
+  jet: 0x93a894,
 };
 
 export interface SceneObject extends TrackInput {
@@ -50,7 +50,7 @@ function buildDetector(): THREE.Group {
       new THREE.CylinderGeometry(radius, radius, 3.2, 32, 1, true),
       40,
     );
-    const mesh = lineOf(geom, 0x3d6b82, opacity);
+    const mesh = lineOf(geom, 0x4a6b52, opacity);
     mesh.rotation.x = Math.PI / 2; // cylinder axis onto z, the beam line
     group.add(mesh);
   }
@@ -59,7 +59,7 @@ function buildDetector(): THREE.Group {
     const geom = new THREE.EdgesGeometry(
       new THREE.RingGeometry(0.12, INNER_DETECTOR_RADIUS_M, 24, 1),
     );
-    const ring = lineOf(geom, 0x3d6b82, 0.42);
+    const ring = lineOf(geom, 0x4a6b52, 0.42);
     ring.position.z = z;
     group.add(ring);
   }
@@ -68,7 +68,7 @@ function buildDetector(): THREE.Group {
     new THREE.Vector3(0, 0, -1.9),
     new THREE.Vector3(0, 0, 1.9),
   ]);
-  group.add(lineOf(beam, 0x39c9ff, 0.45));
+  group.add(lineOf(beam, 0x3fbfb0, 0.45));
 
   return group;
 }
@@ -138,7 +138,7 @@ export function createViewer(
   scene.add(
     new THREE.Mesh(
       new THREE.SphereGeometry(0.028, 16, 16),
-      new THREE.MeshBasicMaterial({ color: 0xf2f0e9 }),
+      new THREE.MeshBasicMaterial({ color: 0xede6d3 }),
     ),
   );
 

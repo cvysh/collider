@@ -27,8 +27,8 @@ export function DataKindBadge({
         "inline-flex items-center gap-1.5 font-mono uppercase tracking-wider",
         pad,
         measured
-          ? "border border-mint/50 bg-mint/10 text-mint rounded-full"
-          : "border border-dashed border-cyan/50 bg-cyan/10 text-cyan rounded-sm",
+          ? "border border-portal/50 bg-portal/10 text-portal rounded-full"
+          : "border border-dashed border-toxic/50 bg-toxic/10 text-toxic rounded-sm",
       ].join(" ")}
       title={
         measured
@@ -42,8 +42,8 @@ export function DataKindBadge({
         aria-hidden
         className={
           measured
-            ? "size-1.5 rounded-full bg-mint"
-            : "size-1.5 border border-cyan bg-transparent"
+            ? "size-1.5 rounded-full bg-portal"
+            : "size-1.5 border border-toxic bg-transparent"
         }
       />
       {measured ? "measured" : "simulated"}

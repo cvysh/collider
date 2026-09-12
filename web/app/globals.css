@@ -1,26 +1,40 @@
 @import "tailwindcss";
 
-/* Palette from docs/design/DIRECTION.md and SPEC section 24.1.
-   Accents are rare; most of the UI stays dark. */
+/* ─────────────────────────────────────────────────────────────
+   COLLIDER — garage-laboratory theme.
+
+   The governing rule: the chrome is chaotic, the data is pristine.
+   Outlines wobble, panels sit askew, tape holds things together —
+   but every number is monospaced, tabular and dead straight. The
+   contrast is the joke, and it is also what SPEC 24.4 requires:
+   decoration never obscures a readout.
+   ───────────────────────────────────────────────────────────── */
 @theme {
-  --color-void: #07100f;
-  --color-deep: #07131a;
-  --color-panel: #0d1a22;
-  --color-panel-raised: #12222c;
-  --color-edge: #1d3340;
+  /* Murky green-black, never neutral. Nothing here is a clean grey. */
+  --color-ground: #0b1410;
+  --color-panel: #14211a;
+  --color-panel-hi: #1b2b22;
 
-  --color-mint: #69f7c6;
-  --color-cyan: #39c9ff;
-  --color-plasma: #ff9d3d;
-  --color-hot: #ff5d5d;
-  --color-paper: #f2f0e9;
+  /* Ink: the outline colour. Thick and dark, like a marker. */
+  --color-ink: #050a07;
+  --color-ink-soft: #2c4034;
 
-  --color-muted: #7d94a1;
-  --color-dim: #4d646f;
+  /* Portal green — the signature. Once per screen, never twice. */
+  --color-portal: #9bcf4f;
+  --color-toxic: #3fbfb0;
+  --color-bruise: #7b5ea7;
+  --color-hazard: #e8c547;
+  --color-alarm: #ef5b4c;
+
+  /* Yellowed paper, not white. Annotations and handwriting. */
+  --color-paper: #ede6d3;
+  --color-muted: #93a894;
+  --color-dim: #5d7563;
 
   --font-display: var(--font-display), system-ui, sans-serif;
   --font-sans: var(--font-sans), system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, monospace;
+  --font-marker: var(--font-marker), cursive;
 }
 
 html {
@@ -28,48 +42,145 @@ html {
 }
 
 body {
-  background: var(--color-void);
+  background: var(--color-ground);
   color: var(--color-paper);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
-/* Numbers must not reflow when they change. Non-negotiable for readouts
-   that update on hover or selection. */
+/* Every number, everywhere. Tabular so values never reflow when they
+   change — the "pristine" half of the contrast. */
 .tabular {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
+  letter-spacing: -0.01em;
 }
 
-/* Slightly irregular panel corners -- SPEC section 24.3, "not sterile
-   corporate rectangles". Subtle enough to stay legible. */
+/* Handwriting. Annotations only. Never a number. */
+.scrawl {
+  font-family: var(--font-marker);
+  letter-spacing: 0.01em;
+}
+
+/* ── Panels ──────────────────────────────────────────────────
+   Thick ink outline, uneven corners, and a slight tilt. Each
+   panel picks a variant so no two are identical. */
 .panel {
-  background: color-mix(in oklab, var(--color-panel) 92%, transparent);
-  border: 1px solid var(--color-edge);
-  border-radius: 14px 10px 15px 9px;
+  position: relative;
+  background: var(--color-panel);
+  border: 2px solid var(--color-ink);
+  border-radius: 18px 10px 20px 8px;
+  box-shadow: 3px 3px 0 0 var(--color-ink);
 }
 
-.panel-raised {
-  background: var(--color-panel-raised);
-  border: 1px solid var(--color-edge);
-  border-radius: 11px 15px 10px 14px;
+.panel-hi {
+  position: relative;
+  background: var(--color-panel-hi);
+  border: 2px solid var(--color-ink);
+  border-radius: 9px 19px 7px 17px;
+  box-shadow: 3px 3px 0 0 var(--color-ink);
 }
 
-/* Faint technical grid; must never compete with data. */
+.panel-flat {
+  background: var(--color-panel);
+  border: 2px solid var(--color-ink);
+  border-radius: 14px 12px 16px 10px;
+}
+
+/* Nudge alternate panels off-square. Deliberately tiny: enough to
+   feel hand-placed, not enough to look broken. */
+.askew-a { transform: rotate(-0.35deg); }
+.askew-b { transform: rotate(0.3deg); }
+
+/* ── Hazard tape ─────────────────────────────────────────────
+   Used for thresholds, warnings and "visual aid" banners. */
+.tape {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-hazard) 0 10px,
+    var(--color-ink) 10px 20px
+  );
+}
+
+/* ── Grain ───────────────────────────────────────────────────
+   Halftone dots at low opacity. Subtle enough to read through;
+   SPEC 24.4 forbids texture that fights legibility. */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--color-ink-soft) 1px, transparent 1px);
+  background-size: 6px 6px;
+  opacity: 0.28;
+  border-radius: inherit;
+}
+
+/* Faint technical grid for open areas. */
 .grid-bg {
   background-image:
-    linear-gradient(color-mix(in oklab, var(--color-edge) 35%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklab, var(--color-edge) 35%, transparent) 1px, transparent 1px);
-  background-size: 44px 44px;
+    linear-gradient(color-mix(in oklab, var(--color-ink-soft) 40%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--color-ink-soft) 40%, transparent) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+
+/* CRT scanlines. The 3D viewer only — it is the one screen that is
+   meant to read as a monitor. */
+.crt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    rgba(0, 0, 0, 0.34) 2px 3px
+  );
+}
+
+/* ── Controls ────────────────────────────────────────────────
+   Chunky physical switches rather than the browser default. */
+.switch {
+  appearance: none;
+  width: 2.6rem;
+  height: 1.35rem;
+  border: 2px solid var(--color-ink);
+  border-radius: 999px;
+  background: var(--color-ground);
+  position: relative;
+  cursor: pointer;
+  transition: background 120ms;
+}
+.switch::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 0.95rem;
+  height: 0.95rem;
+  border: 2px solid var(--color-ink);
+  border-radius: 999px;
+  background: var(--color-muted);
+  transition: transform 120ms, background 120ms;
+}
+.switch:checked {
+  background: color-mix(in oklab, var(--color-portal) 32%, var(--color-ground));
+}
+.switch:checked::after {
+  transform: translateX(1.2rem);
+  background: var(--color-portal);
+}
+.switch:focus-visible {
+  outline: 2px solid var(--color-portal);
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .askew-a, .askew-b { transform: none; }
 }

@@ -1,58 +1,76 @@
 import Link from "next/link";
+import { BeamPipeHero } from "@/components/BeamPipeHero";
 import { Narrator } from "@/components/Narrator";
 
 /**
  * Landing page.
  *
- * Deliberately light: no Three.js, no event data, no API call. SPEC section
- * 6.1 and 21.2 -- the 3D bundle must not load on a page that renders no event.
+ * Opens on the detector seen down the beam pipe — the most characteristic
+ * thing in this subject's world, built from a real event's measured angles.
+ * No event data is fetched and no 3D bundle is loaded (SPEC 6.1, 21.2).
  */
 export default function Home() {
   return (
     <main className="grid-bg">
-      <section className="mx-auto flex max-w-6xl flex-col items-start px-6 py-24">
-        <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted">
-          Same universe. Smaller things. Bigger questions.
-        </p>
+      <section className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 lg:grid-cols-[1.1fr_1fr] lg:py-24">
+        <div>
+          <p className="scrawl text-lg text-hazard">
+            Same universe. Smaller things.
+          </p>
 
-        <h1 className="mt-6 font-display text-6xl font-bold tracking-[0.12em] text-paper sm:text-7xl">
-          C<span className="text-mint">O</span>LLIDER
-        </h1>
+          <h1 className="mt-3 font-display text-7xl leading-[0.9] tracking-wide text-paper sm:text-8xl">
+            C<span className="text-portal">O</span>LLIDER
+          </h1>
 
-        <p className="mt-4 max-w-xl text-lg text-muted">
-          Real particle collisions from CERN. A trained classifier. And an
-          honest account of what it does and doesn&apos;t know.
-        </p>
+          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
+            Real particle collisions from CERN. A classifier that is honest about
+            what it knows. And a detector you can spin around.
+          </p>
 
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Link
-            href="/explore"
-            className="rounded-lg bg-mint px-6 py-3 font-medium text-void transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-mint/60"
-          >
-            Explore collisions
-          </Link>
-          <Link
-            href="/about"
-            className="panel px-6 py-3 font-medium text-paper transition-colors hover:border-mint/40"
-          >
-            How it works
-          </Link>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/explore"
+              className="border-2 border-ink bg-portal px-6 py-3 font-medium text-ground shadow-[3px_3px_0_0_var(--color-ink)] transition-transform hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_0_var(--color-ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-portal"
+              style={{ borderRadius: "14px 9px 15px 8px" }}
+            >
+              Open a collision
+            </Link>
+            <Link
+              href="/about"
+              className="panel-flat px-6 py-3 font-medium text-paper transition-colors hover:text-portal"
+            >
+              How it works
+            </Link>
+          </div>
+
+          <Narrator slot="landing_first_visit" className="mt-10 max-w-md" />
         </div>
 
-        <Narrator slot="landing_first_visit" className="mt-14 max-w-xl" />
+        <div className="relative mx-auto w-full max-w-md">
+          <div className="panel grain askew-b aspect-square overflow-hidden p-4">
+            <BeamPipeHero />
+          </div>
+          <p className="scrawl mt-3 text-right text-sm leading-tight text-muted">
+            looking straight down
+            <br />
+            the beam pipe ↑
+          </p>
+        </div>
+      </section>
 
-        <dl className="mt-16 grid gap-6 sm:grid-cols-3">
+      <section className="mx-auto max-w-6xl px-6 pb-20">
+        <div className="grid gap-4 sm:grid-cols-3">
           {[
-            ["13 TeV", "proton-proton collisions, 2015-2016"],
-            ["Four resonances", "reproduced from the raw data"],
-            ["CC0", "open data, fully traceable"],
-          ].map(([value, label]) => (
-            <div key={label} className="panel p-4">
-              <dt className="tabular text-xl text-mint">{value}</dt>
-              <dd className="mt-1 text-xs text-dim">{label}</dd>
+            ["13 TeV", "proton-proton collisions, 2015–2016", "askew-a"],
+            ["4", "particles found in the raw data", "askew-b"],
+            ["CC0", "open data, every number traceable", "askew-a"],
+          ].map(([value, label, tilt]) => (
+            <div key={label} className={`panel grain ${tilt} p-5`}>
+              <div className="tabular text-2xl text-portal">{value}</div>
+              <div className="mt-1 text-xs leading-relaxed text-muted">{label}</div>
             </div>
           ))}
-        </dl>
+        </div>
       </section>
     </main>
   );

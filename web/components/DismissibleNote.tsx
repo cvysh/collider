@@ -23,7 +23,7 @@ export function DismissibleNote({
       {children}
       <button
         onClick={() => setDismissed(true)}
-        className="shrink-0 rounded px-1 text-dim transition-colors hover:text-paper focus:outline-none focus-visible:ring-1 focus-visible:ring-mint/60"
+        className="shrink-0 rounded px-1 text-dim transition-colors hover:text-paper focus:outline-none focus-visible:ring-1 focus-visible:ring-portal/60"
         aria-label="Dismiss this note"
       >
         ×

@@ -46,7 +46,7 @@ export function EventViewerPanel({
       />
 
       {selected && (
-        <section className="panel-raised p-4">
+        <section className="panel-hi p-4">
           <h3 className="text-xs uppercase tracking-wider text-dim">
             {selected.type}
             {selected.charge != null && (
