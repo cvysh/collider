@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Anton, JetBrains_Mono, Permanent_Marker, Work_Sans } from "next/font/google";
 import Link from "next/link";
+import { CompanionToggle } from "@/components/Companion";
 import "./globals.css";
 
 // Anton: condensed and heavy, for the wordmark and page titles. Work Sans for
@@ -50,6 +51,9 @@ export default function RootLayout({
                 {label}
               </Link>
             ))}
+            <div className="ml-auto">
+              <CompanionToggle />
+            </div>
           </nav>
         </header>
 

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { ReconstructedObject } from "@/lib/api";
 import { Narrator } from "@/components/Narrator";
+import { CAMERA_PRESETS, STOPPING_RADIUS, SUBSYSTEMS } from "./detector";
 import { createViewer, type SceneObject, type Viewer } from "./scene";
 
 /**
@@ -55,6 +56,8 @@ export function EventViewer({
   // Null until the user has actually toggled, so the narrator comments on a
   // deliberate action rather than on the initial render.
   const [toggled, setToggled] = useState(false);
+  const [preset, setPreset] = useState(CAMERA_PRESETS[0].id);
+  const [showLegend, setShowLegend] = useState(false);
   // Evaluated once, on the client only -- this component never renders on the
   // server. A lazy initialiser keeps it out of the effect, so no state is set
   // synchronously during an effect.
@@ -104,6 +107,10 @@ export function EventViewer({
     viewerRef.current?.setSelected(selectedId ?? null);
   }, [selectedId]);
 
+  useEffect(() => {
+    viewerRef.current?.setCameraPreset(preset);
+  }, [preset]);
+
   if (!supported) {
     return (
       <div className="panel grid h-[26rem] place-items-center p-6 text-center">
@@ -121,8 +128,47 @@ export function EventViewer({
         <div ref={containerRef} className="h-[26rem] w-full" />
       </div>
       <div className="flex flex-wrap items-center justify-between gap-3 border-t-2 border-ink px-3 py-2">
-        <p className="text-xs text-dim">
-          Drag to rotate · scroll to zoom · click a track
+        {/* The three standard views used in real event displays. */}
+        <div className="flex items-center gap-1">
+          {CAMERA_PRESETS.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => setPreset(p.id)}
+              title={p.hint}
+              aria-pressed={preset === p.id}
+              className={[
+                "border-2 border-ink px-2 py-1 font-mono text-[11px] transition-colors",
+                preset === p.id
+                  ? "bg-portal text-ground"
+                  : "bg-panel-hi text-muted hover:text-paper",
+              ].join(" ")}
+              style={{ borderRadius: "8px 5px 9px 4px" }}
+            >
+              {p.label}
+            </button>
+          ))}
+          <span aria-hidden className="mx-1 h-4 w-px bg-ink-soft" />
+          {([["−", 1.25], ["+", 0.8]] as const).map(([glyph, factor]) => (
+            <button
+              key={glyph}
+              onClick={() => viewerRef.current?.zoomBy(factor)}
+              aria-label={factor > 1 ? "Zoom out" : "Zoom in"}
+              className="border-2 border-ink bg-panel-hi px-2 py-1 font-mono text-[11px] text-muted transition-colors hover:text-paper"
+              style={{ borderRadius: "8px 5px 9px 4px" }}
+            >
+              {glyph}
+            </button>
+          ))}
+          <button
+            onClick={() => setShowLegend((v) => !v)}
+            aria-expanded={showLegend}
+            className="ml-1 text-[11px] text-dim underline decoration-dotted hover:text-paper"
+          >
+            layers
+          </button>
+        </div>
+        <p className="text-[11px] text-dim">
+          drag to rotate · ⌘/ctrl + scroll to zoom
         </p>
         <label className="flex items-center gap-2 text-xs">
           <input
@@ -140,6 +186,37 @@ export function EventViewer({
           </span>
         </label>
       </div>
+      {showLegend && (
+        <div className="border-t-2 border-ink px-3 py-3">
+          <h4 className="stencil">DETECTOR LAYERS — real ATLAS dimensions</h4>
+          <ul className="mt-2 space-y-1">
+            {SUBSYSTEMS.map((sys) => (
+              <li key={sys.id} className="flex items-baseline gap-2 text-[11px]">
+                <span
+                  aria-hidden
+                  className="mt-1 size-2 shrink-0 border border-ink"
+                  style={{ background: `#${sys.colour.toString(16).padStart(6, "0")}` }}
+                />
+                <span className="w-28 shrink-0 text-muted">{sys.label}</span>
+                <span className="tabular w-20 shrink-0 text-dim">
+                  {sys.r[0] < 1 ? sys.r[0].toFixed(2) : sys.r[0].toFixed(1)}–
+                  {sys.r[1].toFixed(1)} m
+                </span>
+                <span className="text-dim">{sys.note}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-[10px] leading-relaxed text-dim">
+            Tracks stop where their physics says they stop: electrons and photons
+            at {STOPPING_RADIUS.electron} m in the EM calorimeter, jets at{" "}
+            {STOPPING_RADIUS.jet} m, muons out to {STOPPING_RADIUS.muon} m.
+            Curvature is only computed inside the solenoid — beyond 1.3 m the
+            field is toroidal and those segments are straight extrapolations,
+            not modelled trajectories.
+          </p>
+        </div>
+      )}
+
       {exaggerated && (
         <p className="border-t-2 border-ink bg-hazard/15 px-3 py-2 text-xs text-hazard">
           Curvature is exaggerated 60× and is not the measured trajectory. At

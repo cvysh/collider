@@ -14,7 +14,13 @@
  * complexity, which SPEC section 65 lists as trap 6.
  */
 import * as THREE from "three";
-import { helixPoints, INNER_DETECTOR_RADIUS_M, type TrackInput } from "@/lib/trajectory";
+import { helixPoints, type TrackInput } from "@/lib/trajectory";
+import {
+  CAMERA_PRESETS,
+  SOLENOID_OUTER_M,
+  STOPPING_RADIUS,
+  SUBSYSTEMS,
+} from "./detector";
 
 export const OBJECT_COLOURS: Record<string, number> = {
   muon: 0x9bcf4f,
@@ -36,39 +42,38 @@ function lineOf(geom: THREE.BufferGeometry, colour: number, opacity: number) {
   );
 }
 
-/** Schematic detector: barrel rings and endcap discs, deliberately not a CAD
- *  model (SPEC section 19.2). It exists to give the tracks somewhere to be. */
+/**
+ * The detector, built from the published subsystem dimensions in detector.ts.
+ *
+ * One wireframe cylinder per subsystem, at its outer radius and real
+ * half-length. An earlier version drew both radii plus endcap discs for all
+ * seven layers; from any angled view that is dozens of overlapping ellipses
+ * and the event disappeared inside them. The full radial extents stay in the
+ * legend, where they can be read rather than merely seen.
+ *
+ * Opacity falls off with radius. The outer chambers are there to give a sense
+ * of scale, not to be studied.
+ */
 function buildDetector(): THREE.Group {
   const group = new THREE.Group();
 
-  for (const [radius, opacity] of [
-    [0.45, 0.5],
-    [0.75, 0.38],
-    [INNER_DETECTOR_RADIUS_M, 0.3],
-  ] as const) {
+  for (const sys of SUBSYSTEMS) {
+    const radius = sys.r[1];
     const geom = new THREE.EdgesGeometry(
-      new THREE.CylinderGeometry(radius, radius, 3.2, 32, 1, true),
+      new THREE.CylinderGeometry(radius, radius, sys.halfZ * 2, radius > 2 ? 20 : 36, 1, true),
       40,
     );
-    const mesh = lineOf(geom, 0x4a6b52, opacity);
+    const mesh = lineOf(geom, sys.colour, sys.opacity);
     mesh.rotation.x = Math.PI / 2; // cylinder axis onto z, the beam line
+    mesh.userData.subsystem = sys.id;
     group.add(mesh);
   }
 
-  for (const z of [-1.6, 1.6]) {
-    const geom = new THREE.EdgesGeometry(
-      new THREE.RingGeometry(0.12, INNER_DETECTOR_RADIUS_M, 24, 1),
-    );
-    const ring = lineOf(geom, 0x4a6b52, 0.42);
-    ring.position.z = z;
-    group.add(ring);
-  }
-
   const beam = new THREE.BufferGeometry().setFromPoints([
-    new THREE.Vector3(0, 0, -1.9),
-    new THREE.Vector3(0, 0, 1.9),
+    new THREE.Vector3(0, 0, -12),
+    new THREE.Vector3(0, 0, 12),
   ]);
-  group.add(lineOf(beam, 0x3fbfb0, 0.45));
+  group.add(lineOf(beam, 0x3fd4ef, 0.4));
 
   return group;
 }
@@ -83,7 +88,16 @@ export function buildTracks(objects: SceneObject[], curvatureScale: number): THR
   const group = new THREE.Group();
 
   for (const obj of objects) {
-    const positions = helixPoints(obj, { nPoints: 48, curvatureScale });
+    // Each type stops where its physics says it stops. The helix is only valid
+    // inside the solenoid, so the segment beyond it is a straight extrapolation
+    // along the exit direction rather than a modelled trajectory.
+    const stop = STOPPING_RADIUS[obj.type] ?? STOPPING_RADIUS.jet;
+    const bent = helixPoints(obj, {
+      nPoints: 40,
+      curvatureScale,
+      maxRadius: SOLENOID_OUTER_M,
+    });
+    const positions = extendStraight(bent, stop, obj.eta);
     const geom = new THREE.BufferGeometry();
     geom.setAttribute("position", new THREE.BufferAttribute(positions, 3));
 
@@ -109,9 +123,47 @@ export function buildTracks(objects: SceneObject[], curvatureScale: number): THR
   return group;
 }
 
+/**
+ * Continue a track in a straight line from its last point out to `stopRadius`.
+ *
+ * Beyond the solenoid the field is toroidal and this project does not model it,
+ * so extrapolating the helix would be inventing a trajectory. A straight
+ * continuation along the exit direction is the honest approximation, and the
+ * viewer labels the outer region as extrapolated.
+ */
+function extendStraight(
+  bent: Float32Array,
+  stopRadius: number,
+  eta: number,
+): Float32Array {
+  const n = bent.length / 3;
+  const ex = bent[(n - 1) * 3];
+  const ey = bent[(n - 1) * 3 + 1];
+  const ez = bent[(n - 1) * 3 + 2];
+  const px = ex - bent[(n - 2) * 3];
+  const py = ey - bent[(n - 2) * 3 + 1];
+  const len = Math.hypot(px, py) || 1;
+  const transverse = Math.hypot(ex, ey);
+  const extra = Math.max(stopRadius - transverse, 0);
+
+  const EXTRA_POINTS = 8;
+  const out = new Float32Array((n + EXTRA_POINTS) * 3);
+  out.set(bent, 0);
+  for (let i = 1; i <= EXTRA_POINTS; i++) {
+    const t = (extra * i) / EXTRA_POINTS;
+    const j = (n + i - 1) * 3;
+    out[j] = ex + (px / len) * t;
+    out[j + 1] = ey + (py / len) * t;
+    out[j + 2] = ez + Math.sinh(eta) * t;
+  }
+  return out;
+}
+
 export interface Viewer {
   setCurvatureScale(scale: number): void;
   setSelected(id: number | null): void;
+  setCameraPreset(id: string): void;
+  zoomBy(factor: number): void;
   resize(): void;
   dispose(): void;
 }
@@ -126,7 +178,7 @@ export function createViewer(
     45,
     container.clientWidth / Math.max(container.clientHeight, 1),
     0.01,
-    100,
+    200,
   );
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -147,9 +199,9 @@ export function createViewer(
 
   // Orbit implemented directly rather than importing OrbitControls: drag to
   // rotate and wheel to zoom is all this needs.
-  let theta = Math.PI / 4;
-  let phi = Math.PI / 3;
-  let distance = 4.0;
+  let theta = CAMERA_PRESETS[0].theta;
+  let phi = CAMERA_PRESETS[0].phi;
+  let distance = CAMERA_PRESETS[0].distance;
   let dragging = false;
   let lastX = 0;
   let lastY = 0;
@@ -180,9 +232,19 @@ export function createViewer(
   const onPointerUp = () => {
     dragging = false;
   };
+  /**
+   * Zoom only with a modifier held, or a pinch gesture (which arrives as a
+   * wheel event with ctrlKey set).
+   *
+   * A plain wheel must scroll the page. An earlier version swallowed every
+   * wheel event, which trapped the reader inside a viewer occupying most of
+   * the viewport -- the canvas is large, and a control that hijacks scrolling
+   * is a usability failure regardless of how good the zoom feels.
+   */
   const onWheel = (e: WheelEvent) => {
+    if (!e.ctrlKey && !e.metaKey) return; // let the page scroll
     e.preventDefault();
-    distance = Math.min(9, Math.max(1.4, distance + e.deltaY * 0.003));
+    distance = Math.min(24, Math.max(0.35, distance * (1 + e.deltaY * 0.0012)));
     applyCamera();
   };
 
@@ -234,6 +296,18 @@ export function createViewer(
       disposeGroup(tracks);
       tracks = buildTracks(objects, scale);
       scene.add(tracks);
+    },
+    zoomBy(factor) {
+      distance = Math.min(24, Math.max(0.35, distance * factor));
+      applyCamera();
+    },
+    setCameraPreset(id) {
+      const preset = CAMERA_PRESETS.find((p) => p.id === id);
+      if (!preset) return;
+      theta = preset.theta;
+      phi = preset.phi;
+      distance = preset.distance;
+      applyCamera();
     },
     setSelected(id) {
       tracks.children.forEach((child) => {

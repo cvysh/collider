@@ -41,6 +41,12 @@ def main() -> None:
     edges = np.linspace(LO, HI, N_BINS + 1)
     centres = 0.5 * (edges[:-1] + edges[1:])
 
+    # Leading-lepton pT per event, so the spectrum can be recut interactively
+    # in the browser. Precomputing one histogram per threshold keeps the
+    # interaction instant without shipping per-event data to the client.
+    lead_pt = d["features"][:, list(map(str, d["feature_names"])).index("lep_pt_0")]
+    CUTS = [0, 20, 30, 40, 50, 60]
+
     def binned(mask):
         counts, _ = np.histogram(m4l[mask], bins=edges, weights=weights[mask])
         # Statistical uncertainty on a weighted sum is sqrt(sum w^2), never
@@ -58,6 +64,21 @@ def main() -> None:
     for lo, hi in zip(edges[:-1], edges[1:], strict=True):
         in_bin = (labels == 0) & (m4l >= lo) & (m4l < hi)
         bkg_neff.append(round(effective_entries(weights[in_bin]), 1))
+
+    cut_series = []
+    for cut in CUTS:
+        passing = lead_pt >= cut
+        sig_c, _, _ = binned((labels == 1) & passing)
+        bkg_c, _, _ = binned((labels == 0) & passing)
+        cut_series.append(
+            {
+                "cut": cut,
+                "signal": [round(float(v), 4) for v in sig_c],
+                "background": [round(float(v), 4) for v in bkg_c],
+                "signal_total": round(float(sig_c.sum()), 3),
+                "background_total": round(float(bkg_c.sum()), 3),
+            }
+        )
 
     _, _, test_idx = split_indices(len(labels), seed=SEED)
 
@@ -91,6 +112,12 @@ def main() -> None:
             {"at": 91.2, "label": "m_Z = 91.2 GeV", "note": "single-Z background"},
             {"at": 182.0, "label": "2·m_Z", "note": "two on-shell Z bosons become possible"},
         ],
+        "pt_cuts": {
+            "feature": "lep_pt_0",
+            "label": "leading lepton pT",
+            "unit": "GeV",
+            "series": cut_series,
+        },
         "caveats": [
             "Simulation only. Real 4-lepton data is not overlaid: one event in the "
             "available file survives selection, and a single entry is not a measurement.",
@@ -117,6 +144,12 @@ def main() -> None:
     print(f"  signal peak bin  {centres[peak]:.1f} GeV  ({sig[peak]:.2f} events)")
     print(f"  S/B at peak      {sig[peak] / max(bkg[peak], 1e-9):.2f}")
     print(f"  bkg N_eff there  {bkg_neff[peak]:.1f}")
+    print("\n  leading-lepton pT cut scan:")
+    for c in cut_series:
+        s_, b_ = c["signal_total"], c["background_total"]
+        print(
+            f"    >= {c['cut']:2d} GeV   S {s_:6.2f}   B {b_:8.2f}   S/B {s_ / max(b_, 1e-9):.4f}"
+        )
 
 
 if __name__ == "__main__":

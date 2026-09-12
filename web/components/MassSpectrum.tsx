@@ -41,6 +41,14 @@ export interface Series {
   n_eff?: number[];
 }
 
+export interface CutSeries {
+  cut: number;
+  signal: number[];
+  background: number[];
+  signal_total: number;
+  background_total: number;
+}
+
 export interface Spectrum {
   quantity: string;
   unit: string;
@@ -52,6 +60,12 @@ export interface Spectrum {
   annotations: { at: number; label: string; note: string }[];
   caveats: string[];
   totals: Record<string, number>;
+  pt_cuts?: {
+    feature: string;
+    label: string;
+    unit: string;
+    series: CutSeries[];
+  };
 }
 
 const PAD = { top: 18, right: 18, bottom: 42, left: 54 };
@@ -65,10 +79,21 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
   // of magnitude above everything else, and on a linear axis it flattens the
   // region the plot exists to show.
   const [logScale, setLogScale] = useState(false);
+  const [cutIndex, setCutIndex] = useState(0);
   const clipId = useId();
 
-  const background = spectrum.series.find((s) => s.id === "background")!;
-  const signal = spectrum.series.find((s) => s.id === "signal")!;
+  const baseBackground = spectrum.series.find((s) => s.id === "background")!;
+  const baseSignal = spectrum.series.find((s) => s.id === "signal")!;
+
+  // Applying a cut swaps in a precomputed series rather than recomputing in
+  // the browser. The shapes below are real recuts of the same MC, not a scaled
+  // version of the uncut histogram.
+  const cuts = spectrum.pt_cuts?.series ?? [];
+  const active = cuts[cutIndex];
+  const background =
+    active && cutIndex > 0 ? { ...baseBackground, values: active.background } : baseBackground;
+  const signal =
+    active && cutIndex > 0 ? { ...baseSignal, values: active.signal } : baseSignal;
 
   const lo = spectrum.edges[0];
   const hi = spectrum.edges[spectrum.edges.length - 1];
@@ -133,6 +158,55 @@ export function MassSpectrum({ spectrum }: { spectrum: Spectrum }) {
           <span className="text-muted">Log scale</span>
         </label>
       </div>
+
+      {cuts.length > 1 && (
+        <div className="mt-3 border-y-2 border-ink py-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <label className="flex items-center gap-3 text-xs">
+              <span className="text-muted">
+                {spectrum.pt_cuts!.label} ≥
+                <span className="tabular ml-1.5 text-paper">
+                  {active?.cut ?? 0}
+                </span>
+                <span className="ml-1 text-dim">{spectrum.pt_cuts!.unit}</span>
+              </span>
+              <input
+                type="range"
+                min={0}
+                max={cuts.length - 1}
+                step={1}
+                value={cutIndex}
+                onChange={(e) => setCutIndex(Number(e.target.value))}
+                className="w-44 accent-portal"
+                aria-label={`${spectrum.pt_cuts!.label} threshold`}
+              />
+            </label>
+            {active && (
+              <dl className="flex gap-4 text-[11px]">
+                {[
+                  ["S", active.signal_total.toFixed(1)],
+                  ["B", active.background_total.toFixed(0)],
+                  [
+                    "S/B",
+                    (active.signal_total / Math.max(active.background_total, 1e-9)).toFixed(4),
+                  ],
+                ].map(([k, v]) => (
+                  <div key={k} className="flex items-baseline gap-1.5">
+                    <dt className="text-dim">{k}</dt>
+                    <dd className="tabular text-paper">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </div>
+          <p className="mt-2 text-[10px] leading-relaxed text-dim">
+            A harder cut looks like it should favour a heavy parent. Watch S/B:
+            it improves barely, then gets worse — the background at high mass
+            has hard leptons too. Not every plausible cut helps, which is why
+            they are measured rather than assumed.
+          </p>
+        </div>
+      )}
 
       <div className="mt-2 overflow-x-auto">
         <svg

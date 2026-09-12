@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BeamPipeHero } from "@/components/BeamPipeHero";
+import { StatRibbon } from "@/components/StatRibbon";
 import { Narrator } from "@/components/Narrator";
 
 /**
@@ -71,18 +72,7 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-20">
-        <div className="grid gap-4 sm:grid-cols-3">
-          {[
-            ["13 TeV", "proton-proton collisions, 2015–2016", "askew-a"],
-            ["4", "particles found in the raw data", "askew-b"],
-            ["CC0", "open data, every number traceable", "askew-a"],
-          ].map(([value, label, tilt]) => (
-            <div key={label} className={`panel grain ${tilt} p-5`}>
-              <div className="tabular text-2xl text-portal">{value}</div>
-              <div className="mt-1 text-xs leading-relaxed text-muted">{label}</div>
-            </div>
-          ))}
-        </div>
+        <StatRibbon />
       </section>
     </main>
   );

@@ -151,3 +151,55 @@ has failed at priority 2 of 6.
 - Character artwork replaces the placeholder initials in `Narrator`
   (`assets/characters/README.md`).
 - Slot 6 needs two replacement dialogue lines.
+
+## Ported from the static prototype
+
+Five ideas were taken from a separate static build (`~/.gemini/antigravity/
+scratch/collider-app`), each rebuilt on real data. That prototype's own values
+were invented — hand-written event kinematics, a `5.2σ (Discovery Level)` badge
+carrying the 2012 ATLAS/CMS discovery figure, `13.6 TeV` for a Run 2 dataset —
+so nothing was copied, only the ideas.
+
+| Idea | Honest version |
+|---|---|
+| Layered detector | Published ATLAS radii; tracks stop where their physics says |
+| Camera presets | 3D / x–y / r–z, the conventions real event displays use |
+| pT-cut slider | Recuts of the real MC, with S/B shown live |
+| Stat ribbon | Our measured numbers, each with its provenance |
+| Docked companion | One global switch instead of per-note dismissal |
+
+### The detector teaches something now
+
+`components/viewer/detector.ts` carries the real subsystem dimensions, and each
+particle type terminates where it physically would: electrons and photons at
+2.0 m in the EM calorimeter, jets at 4.25 m in the hadronic calorimeter, muons
+out to 7.5 m in the muon chambers — which is why that outermost layer is called
+the muon spectrometer.
+
+Curvature is computed only inside the solenoid (1.3 m). Beyond it the field is
+toroidal and unmodelled, so those segments are straight extrapolations and the
+legend says so rather than implying a trajectory we did not calculate.
+
+### The slider produced a negative result, and it was kept
+
+The prototype's slider promised to "watch the background suppress in real
+time". Recut on real MC, the leading-lepton pT cut barely helps and then hurts:
+
+| Cut | S | B | S/B |
+|---|---|---|---|
+| ≥ 0 GeV | 15.66 | 395.12 | 0.0396 |
+| ≥ 30 GeV | 14.91 | 368.50 | **0.0405** |
+| ≥ 60 GeV | 3.90 | 154.89 | 0.0252 |
+
+Higher pT sounds like it should favour a heavy parent, but the ZZ background at
+high mass has hard leptons too. The interaction now teaches that an intuitive
+cut can fail — which the invented version could not, because nothing was being
+measured.
+
+### Two bugs found while porting
+
+- The canvas swallowed every wheel event, trapping the reader inside a viewer
+  that fills most of the viewport. Zoom now needs ⌘/ctrl, with explicit ± buttons.
+- Drawing both radii plus endcap discs for all seven subsystems produced dozens
+  of overlapping ellipses that hid the event. One cylinder per subsystem now,
+  with the full radial extents in the legend where they can be read.
