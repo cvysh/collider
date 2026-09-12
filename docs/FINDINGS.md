@@ -220,3 +220,93 @@ real Z.
 The background N_eff of 1,443 (from 4,491 rows) is thin. Uncertainties on
 background predictions will be correspondingly large, and additional ZZ
 samples should be added before any result is quoted seriously.
+
+---
+
+## 6. Baseline classifier — and why the mass does most of the work
+
+**Scripts:** `scripts/train_baseline.py`, `scripts/plot_baseline.py`
+· **Tests:** `tests/test_metrics.py` · **Figure:** `figures/baseline.png`
+
+Logistic regression, 14 features, fitted on balanced weights, evaluated on
+physical weights, test split touched once.
+
+| Split | AUC |
+|---|---|
+| train | 0.9136 |
+| validation | 0.9151 |
+| test | **0.9110** |
+
+No overfitting — validation sits marginally above train.
+
+### The result that matters
+
+Expected significance at 36 fb⁻¹, test split scaled to the full dataset:
+
+| Strategy | S | B | Z |
+|---|---|---|---|
+| No selection | 15.73 | 558.98 | 0.66 |
+| Classifier alone (score > 0.72) | 11.28 | 64.73 | 1.36 |
+| **Mass window alone (115–130 GeV)** | **15.09** | **16.87** | **3.26** |
+| Mass window + classifier at 0.72 | 10.89 | 15.74 | **2.50** |
+| Mass window + classifier re-optimised | 15.07 | 15.74 | 3.35 |
+
+**Three things to take from this.**
+
+1. **The mass window alone (3.26) beats the classifier alone (1.36) by a
+   factor of 2.4.** A single physically-motivated cut outperforms a
+   fourteen-feature model. This vindicates excluding `m_4l` from the features —
+   had it been included, the classifier would simply have rediscovered the mass
+   cut and we would have learned nothing.
+
+2. **Combining them naively makes things *worse*: 2.50 < 3.26.** The threshold
+   0.72 was optimal for the classifier *in isolation*. Applied inside the mass
+   window it removes more signal than background. **Cuts must be optimised
+   jointly, never independently and then stacked.**
+
+3. **Properly combined, the classifier adds almost nothing: 3.35 vs 3.26,
+   a 3% gain.** This is an honest negative result and it has an explanation.
+
+### Why the classifier is redundant with the mass
+
+Correlation of each feature with the held-out `m_4l`, computed on background:
+
+| Feature | corr with `m_4l` |
+|---|---|
+| `m_z2` | **+0.599** |
+| `lep_pt_1` | +0.540 |
+| `lep_pt_2` | +0.466 |
+| `m_z1` | +0.122 |
+
+Split by class, `corr(m_z2, m_4l)` is **+0.046 in signal** but **+0.563 in
+background**. For background there is no mass constraint, so a heavier
+four-lepton system simply means a heavier second pair — the strongest feature
+is largely restating the mass. In signal, `m_4l` is pinned at 125, so `m_z2`
+carries independent information.
+
+The classifier is therefore mostly re-deriving the mass cut through a proxy.
+Adding features correlated with the held-out variable reintroduces the
+sculpting risk by the back door, and this is the quantitative evidence for it.
+
+### Methodological note — an error caught and fixed
+
+Significance was initially computed on the test split alone, whose physical
+weights sum to 20% of the experiment's expected yield. Significance grows like
+√N, so this understated it by more than a factor of two. `evaluate()` now takes
+`yield_scale` and the test asserts AUC is unaffected by it while significance
+scales as √N.
+
+### Coefficients are not feature importances
+
+`pt_4l` carries the largest standardised coefficient (+1.748) with `lep_pt_0`
+opposing it (−1.398), despite `pt_4l` having almost no univariate separation
+(0.16σ). They correlate at ρ = 0.78 (VIF 5.7), so the model is using their
+*difference*. Correlated inputs make coefficients unreadable as importance;
+permutation importance is the appropriate tool.
+
+### Scope reminder
+
+Signal is **ggF production only**; other Higgs production modes are excluded.
+Background is the **irreducible ZZ→4ℓ only** — no fakes, which real data is
+dominated by before selection. These numbers describe a simplified analysis on
+simulation and are not an ATLAS result.
