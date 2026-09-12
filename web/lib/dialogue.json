@@ -1,0 +1,849 @@
+{
+  "version": "1.0",
+  "tone": "explicit",
+  "speakers": {
+    "A": {
+      "role": "Eccentric senior scientist. Arrogant, deadpan, casually profane, frighteningly competent.",
+      "expressions": [
+        "deadpan",
+        "smug",
+        "sarcastic",
+        "annoyed"
+      ]
+    },
+    "B": {
+      "role": "Intern. Nervous, expressive, asks the questions the user is already thinking.",
+      "expressions": [
+        "nervous",
+        "surprised",
+        "excited"
+      ]
+    }
+  },
+  "slots": [
+    {
+      "number": 1,
+      "id": "measured_event_opened",
+      "tier": 1,
+      "trigger": "A measured event is opened",
+      "speaker": "B",
+      "must_convey": "It is real, and unlabelled",
+      "lines": [
+        {
+          "text": "Okay, this one's real. Nobody knows what the hell it is.",
+          "expression": "nervous"
+        },
+        {
+          "text": "Holy shit, it's actual data. And no, we don't know the answer.",
+          "expression": "surprised"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "simulated_event_opened",
+      "tier": 1,
+      "trigger": "A simulated event is opened",
+      "speaker": "A",
+      "must_convey": "It is simulation; the answer is known",
+      "lines": [
+        {
+          "text": "Simulation. We made it. Of course we know what's in it.",
+          "expression": "smug"
+        },
+        {
+          "text": "Fake collision. Relax. We already know the answer because we made the damn thing.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "It's simulated. The universe didn't do this one. We did.",
+          "expression": "deadpan"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "model_cannot_score",
+      "tier": 1,
+      "trigger": "Model cannot score this topology",
+      "speaker": "A",
+      "must_convey": "Wrong topology, not a failure",
+      "lines": [
+        {
+          "text": "Two muons. The model wants four. So no score. Don't make me invent physics.",
+          "expression": "annoyed"
+        },
+        {
+          "text": "Wrong topology. Two muons isn't four muons, despite what your eyeballs tell you.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "It can't score this one. That's not failure, that's called knowing when to shut up.",
+          "expression": "deadpan"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "score_near_threshold",
+      "tier": 1,
+      "trigger": "Score within +/-0.05 of the threshold",
+      "speaker": "A",
+      "must_convey": "Do not over-read it",
+      "lines": [
+        {
+          "text": "Right on the fucking line. Don't start writing a Nobel speech.",
+          "expression": "annoyed"
+        },
+        {
+          "text": "It's near the threshold. Meaning: calm the hell down.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "That's basically the model shrugging. Don't turn it into a discovery.",
+          "expression": "sarcastic"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "score_shown",
+      "tier": 1,
+      "trigger": "Any score is displayed",
+      "speaker": "A",
+      "must_convey": "Discriminant, not probability",
+      "lines": [
+        {
+          "text": "That's a discriminant score, not probability. Don't confuse math with fortune-telling.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "It's a score, not the universe's opinion. Nature didn't roll these numbers.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "The score is ours. The uncertainty is nature's. Try not to fuck those up.",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "curvature_true",
+      "tier": 1,
+      "trigger": "Curvature toggled to true geometry",
+      "speaker": "A",
+      "must_convey": "Straight is correct",
+      "lines": [
+        {
+          "text": "Those tracks were always doing that, genius.",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "curvature_exaggerated",
+      "tier": 1,
+      "trigger": "Curvature toggled to exaggerated",
+      "speaker": "A",
+      "must_convey": "This is a visual aid",
+      "lines": [
+        {
+          "text": "Congratulations. You've made the tracks lie louder. At least it's labelled.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "That's exaggerated curvature. Useful for your eyeballs, useless as raw data.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "We're cranking the visual effect. The physics didn't change. Your screen did.",
+          "expression": "annoyed"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "quantity_absent",
+      "tier": 1,
+      "trigger": "A requested quantity is not in the event",
+      "speaker": "B",
+      "must_convey": "We do not invent it",
+      "lines": [
+        {
+          "text": "Uh... yeah, that measurement isn't here. We can't just make one up, right?",
+          "expression": "nervous"
+        },
+        {
+          "text": "It's not in the event. So we don't have it. Science is annoyingly strict.",
+          "expression": "nervous"
+        },
+        {
+          "text": "No measurement means no measurement. Apparently we're not allowed to bullshit.",
+          "expression": "surprised"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "prediction_wrong",
+      "tier": 1,
+      "trigger": "Prediction disagrees with the truth label",
+      "speaker": "A",
+      "must_convey": "Models are wrong sometimes",
+      "lines": [
+        {
+          "text": "The model fucked that one up. Congratulations, machines aren't gods.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "Wrong prediction. Shocking. Turns out statistical models can be dumb as hell.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "It got it wrong. That's why we measure things instead of worshipping algorithms.",
+          "expression": "annoyed"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "provenance_opened",
+      "tier": 1,
+      "trigger": "Provenance drawer opened",
+      "speaker": "A",
+      "must_convey": "Traceability is the point",
+      "lines": [
+        {
+          "text": "Every number has a source. Click it. If it doesn't, we've got a bigger problem.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "There's your paper trail. Every number came from somewhere. Miraculous, I know.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "Nothing here is magic. Every damn number has an address.",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "mass_bump",
+      "tier": 1,
+      "trigger": "Mass distribution showing the excess",
+      "speaker": "B",
+      "must_convey": "The excess is the interesting part",
+      "lines": [
+        {
+          "text": "Wait... there. That bump. That's the interesting part, right?",
+          "expression": "surprised"
+        },
+        {
+          "text": "Oh shit. Look at that little bump. That's what we're hunting.",
+          "expression": "excited"
+        },
+        {
+          "text": "There it is. Tiny excess, potentially huge headache.",
+          "expression": "surprised"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "limitations_panel",
+      "tier": 1,
+      "trigger": "Model limitations panel opened",
+      "speaker": "A",
+      "must_convey": "Scope is narrow and stated",
+      "lines": [
+        {
+          "text": "It's trained on simulation. Ask it about reality and it's basically guessing.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "This model knows simulated data. Reality doesn't care what it was trained on.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "Simulation-trained model. Useful tool, not an oracle. Don't be that guy.",
+          "expression": "annoyed"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "landing_first_visit",
+      "tier": 2,
+      "trigger": "Landing page, first visit",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Okay... same universe, tiny particles, absolutely massive questions.",
+          "expression": "nervous"
+        },
+        {
+          "text": "Welcome to particle physics. Everything is tiny and nothing is simple.",
+          "expression": "surprised"
+        },
+        {
+          "text": "We're looking at microscopic shit to understand the universe. Cool, right?",
+          "expression": "excited"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "explore_default",
+      "tier": 2,
+      "trigger": "Explore list, default state",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Pick one. Some are real, some are simulations. Try not to break anything.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "Choose a collision. Real or honest fakes. That's about as good as life gets.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "Go ahead. Click something. It's not going to explode. Probably.",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "filter_measured",
+      "tier": 2,
+      "trigger": "Filter set to measured only",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Okay, real data only. No simulation, no answer key. Oh boy.",
+          "expression": "nervous"
+        },
+        {
+          "text": "These are the real collisions. Nobody knows the answers ahead of time.",
+          "expression": "surprised"
+        },
+        {
+          "text": "Just measured events now. So... no cheating.",
+          "expression": "nervous"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "id": "filter_simulated",
+      "tier": 2,
+      "trigger": "Filter set to simulated only",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Simulation. Everything here comes with an answer key. Try not to feel powerful.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "Only simulations. We know what's inside because we made the damn things.",
+          "expression": "smug"
+        },
+        {
+          "text": "Fake collisions. Perfectly useful, completely labelled. You're welcome.",
+          "expression": "deadpan"
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "id": "filter_empty",
+      "tier": 2,
+      "trigger": "Filter returns no results",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Uh... there's nothing here.",
+          "expression": "nervous"
+        },
+        {
+          "text": "Nothing. Either the universe said no, or you got extremely specific.",
+          "expression": "surprised"
+        },
+        {
+          "text": "No results. Great. You filtered the universe into silence.",
+          "expression": "nervous"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "id": "first_particle_selected",
+      "tier": 2,
+      "trigger": "First particle clicked",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Wait, you can just click the particles?",
+          "expression": "surprised"
+        },
+        {
+          "text": "We're actually allowed to poke the particles?",
+          "expression": "excited"
+        },
+        {
+          "text": "Oh. You can select them. That's... surprisingly cool.",
+          "expression": "surprised"
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "id": "muon_selected",
+      "tier": 2,
+      "trigger": "A muon is selected",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Muon. Basically an electron that got heavy and developed a death wish.",
+          "expression": "smug"
+        },
+        {
+          "text": "Muon. Heavy lepton. Same family as the electron, significantly less cooperative.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "That's a muon. Lives longer than you'd expect, ruins good diagrams.",
+          "expression": "sarcastic"
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "id": "electron_selected",
+      "tier": 2,
+      "trigger": "An electron is selected",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Electron. Tiny, charged, everywhere, and somehow still annoying.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "Electron. Light as hell, charged, and incredibly easy to lose track of.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "Electron. One of nature's smallest recurring headaches.",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "id": "track_highlighted",
+      "tier": 2,
+      "trigger": "A track is highlighted",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Follow the track. That's where the particle went.",
+          "expression": "surprised"
+        },
+        {
+          "text": "So the track is basically its path out of the collision?",
+          "expression": "nervous"
+        },
+        {
+          "text": "That's the direction it left in. Physics leaves breadcrumbs. Sometimes.",
+          "expression": "surprised"
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "id": "opposite_charge_pair",
+      "tier": 2,
+      "trigger": "Opposite-charge pair selected",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Opposite charges. They bend opposite ways. Funny how consistent reality is.",
+          "expression": "smug"
+        },
+        {
+          "text": "Positive and negative. Watch the tracks bend apart. That's the field doing its job.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "Opposite charges, opposite curvature. The universe is annoyingly predictable.",
+          "expression": "sarcastic"
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "id": "analysis_starts",
+      "tier": 2,
+      "trigger": "Analysis begins",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Okay. It's thinking.",
+          "expression": "nervous"
+        },
+        {
+          "text": "Uh... analysis is running. Don't touch anything.",
+          "expression": "nervous"
+        },
+        {
+          "text": "It's crunching the numbers. Either science or an expensive loading screen.",
+          "expression": "surprised"
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "id": "analysis_completes",
+      "tier": 2,
+      "trigger": "Analysis finishes",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Done. Now read the caveats before you get excited.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "Finished. Results are ready. Try reading the limitations before celebrating.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "There. Analysis complete. Now the boring part where we interpret it.",
+          "expression": "annoyed"
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "id": "camera_reset",
+      "tier": 2,
+      "trigger": "Camera reset",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Back to the beginning. You got lost already?",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "Reset. Because apparently three dimensions weren't enough.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "There. Back to normal. Nobody saw that.",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "id": "sparse_event",
+      "tier": 2,
+      "trigger": "Event has very few objects",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Four particles. That's it? That's the whole collision?",
+          "expression": "surprised"
+        },
+        {
+          "text": "Only four particles. The universe really doesn't need to show off.",
+          "expression": "surprised"
+        },
+        {
+          "text": "That's everything? Four particles? Physics is weirdly minimalist.",
+          "expression": "nervous"
+        }
+      ]
+    },
+    {
+      "number": 27,
+      "id": "api_error",
+      "tier": 3,
+      "trigger": "API request failed",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "The machine fucked up. Again. Try it one more time.",
+          "expression": "annoyed"
+        },
+        {
+          "text": "The backend disagrees with reality. Refresh it.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "Something broke. Probably software. Definitely not physics.",
+          "expression": "sarcastic"
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "id": "event_not_found",
+      "tier": 3,
+      "trigger": "Event id does not exist",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Uh... this event doesn't exist.",
+          "expression": "nervous"
+        },
+        {
+          "text": "It's gone. Either it never existed or we pissed off the database.",
+          "expression": "nervous"
+        },
+        {
+          "text": "404. The collision has apparently achieved non-existence.",
+          "expression": "surprised"
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "id": "slow_load",
+      "tier": 3,
+      "trigger": "Load is taking a long time",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Still loading. Patience. Even computers need to think sometimes.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "It's working. Slowly. Like a PhD student on their third coffee.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "Wait. The machine's thinking. Don't stare at it, that's not helping.",
+          "expression": "annoyed"
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "id": "webgl_unavailable",
+      "tier": 3,
+      "trigger": "WebGL is unavailable",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "No 3D. That's okay, the numbers still work.",
+          "expression": "nervous"
+        },
+        {
+          "text": "The pretty graphics are dead, but the physics isn't.",
+          "expression": "surprised"
+        },
+        {
+          "text": "No 3D today. Great. Back to numbers like it's 1973.",
+          "expression": "nervous"
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "id": "reduced_motion",
+      "tier": 3,
+      "trigger": "Reduced motion is active",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Motion's off. Nothing important was hiding in the spinning shit anyway.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "Animations disabled. Relax. The physics didn't need the dancing.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "No motion. Good. Less eye candy, same science.",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "id": "eta_gap_explained",
+      "tier": 3,
+      "trigger": "The eta ~ 0 detector gap is explained",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "See that gap? That's intentional. Cables have to go somewhere.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "There's a hole in the detector. No, we didn't lose a piece of it.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "Eta near zero means a detector gap. Engineering beats your fantasy of perfection.",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "number": 33,
+      "id": "detector_feet_explained",
+      "tier": 3,
+      "trigger": "The detector support feet are explained",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Wait, those are the detector's feet?",
+          "expression": "surprised"
+        },
+        {
+          "text": "The detector has legs? Why does the data show that?",
+          "expression": "nervous"
+        },
+        {
+          "text": "So even the giant detector needs somewhere to stand. Makes sense.",
+          "expression": "surprised"
+        }
+      ]
+    },
+    {
+      "number": 34,
+      "id": "trigger_threshold_explained",
+      "tier": 3,
+      "trigger": "The trigger threshold is explained",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Below ten GeV, nobody bothered recording it. Not missing. Never saved.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "Under ten GeV? The trigger said 'who cares' and moved on.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "It's below threshold. The detector didn't lose it. It deliberately ignored it.",
+          "expression": "annoyed"
+        }
+      ]
+    },
+    {
+      "number": 35,
+      "id": "invariant_mass_explained",
+      "tier": 3,
+      "trigger": "Invariant mass is explained",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Add the energies, subtract the momentum... and somehow a mass falls out?",
+          "expression": "surprised"
+        },
+        {
+          "text": "So energy and momentum combine into an invariant mass?",
+          "expression": "nervous"
+        },
+        {
+          "text": "You add the energies, account for momentum, and out comes mass. Weird as hell.",
+          "expression": "excited"
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "id": "z_peak_shown",
+      "tier": 3,
+      "trigger": "The Z peak is displayed",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Ninety-one GeV. Again. That's the Z boson saying hello.",
+          "expression": "smug"
+        },
+        {
+          "text": "Right around ninety-one. Over and over. Reality has patterns. Shocking.",
+          "expression": "sarcastic"
+        },
+        {
+          "text": "There's your Z peak. Ninety-one GeV. Nature's being unusually consistent.",
+          "expression": "deadpan"
+        }
+      ]
+    },
+    {
+      "number": 37,
+      "id": "event_weight_explained",
+      "tier": 3,
+      "trigger": "MC event weights are explained",
+      "speaker": "A",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Simulation gets the frequency wrong. The weight fixes that. Simple.",
+          "expression": "deadpan"
+        },
+        {
+          "text": "The simulation doesn't know how often reality does this. The weight corrects it.",
+          "expression": "smug"
+        },
+        {
+          "text": "Fake events don't happen at real-world rates. The weight fixes the bookkeeping.",
+          "expression": "sarcastic"
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "id": "deep_link_opened",
+      "tier": 3,
+      "trigger": "Arrived via a shared deep link",
+      "speaker": "B",
+      "must_convey": "",
+      "lines": [
+        {
+          "text": "Someone sent you this exact collision? That's... actually pretty cool.",
+          "expression": "surprised"
+        },
+        {
+          "text": "They sent you one specific collision. Weird gift. I respect it.",
+          "expression": "excited"
+        },
+        {
+          "text": "You were sent directly to this event. Okay, that's either nerdy or romantic.",
+          "expression": "surprised"
+        }
+      ]
+    }
+  ]
+}

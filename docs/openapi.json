@@ -1,0 +1,718 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "COLLIDER API",
+    "description": "Curated ATLAS Open Data events and model scores. Measured events carry no truth label; model output is a discriminant score, not a probability.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Api Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events": {
+      "get": {
+        "summary": "List Events",
+        "operationId": "list_events_api_events_get",
+        "parameters": [
+          {
+            "name": "data_kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "measured",
+                    "simulated"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by real collision data or simulation",
+              "title": "Data Kind"
+            },
+            "description": "Filter by real collision data or simulation"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events/{event_id}": {
+      "get": {
+        "summary": "Get Event",
+        "operationId": "get_event_api_events__event_id__get",
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Event Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventPayload"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/models": {
+      "get": {
+        "summary": "List Models",
+        "operationId": "list_models_api_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ModelInfo"
+                  },
+                  "type": "array",
+                  "title": "Response List Models Api Models Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EventListResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "Matching events before pagination"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count",
+            "description": "Events in this page"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/EventSummary"
+            },
+            "type": "array",
+            "title": "Events"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "count",
+          "events"
+        ],
+        "title": "EventListResponse",
+        "description": "A page of event summaries."
+      },
+      "EventPayload": {
+        "properties": {
+          "schema_version": {
+            "type": "string",
+            "title": "Schema Version",
+            "default": "1.0"
+          },
+          "event_id": {
+            "type": "string",
+            "title": "Event Id"
+          },
+          "data_kind": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "simulated"
+            ],
+            "title": "Data Kind",
+            "description": "Required. 'measured' events carry no truth label."
+          },
+          "mc_process": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mc Process"
+          },
+          "truth_label": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "signal",
+                  "background"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Truth Label"
+          },
+          "mc_weight": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mc Weight"
+          },
+          "experiment": {
+            "type": "string",
+            "title": "Experiment",
+            "default": "ATLAS"
+          },
+          "collision_energy_tev": {
+            "type": "number",
+            "title": "Collision Energy Tev",
+            "description": "Beam configuration, not a per-event measurement",
+            "default": 13.0
+          },
+          "run_number": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Run Number"
+          },
+          "event_number": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Event Number"
+          },
+          "objects": {
+            "items": {
+              "$ref": "#/components/schemas/ReconstructedObject"
+            },
+            "type": "array",
+            "title": "Objects"
+          },
+          "missing_energy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MissingEnergy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "derived": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Derived"
+          },
+          "prediction": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Prediction"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prediction_unavailable_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prediction Unavailable Reason"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "event_id",
+          "data_kind",
+          "objects",
+          "provenance"
+        ],
+        "title": "EventPayload",
+        "description": "One complete event, as delivered to the browser."
+      },
+      "EventSummary": {
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "title": "Event Id"
+          },
+          "data_kind": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "simulated"
+            ],
+            "title": "Data Kind"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "n_objects": {
+            "type": "integer",
+            "title": "N Objects"
+          },
+          "n_leptons": {
+            "type": "integer",
+            "title": "N Leptons"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "headline": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Headline",
+            "description": "One or two display quantities, e.g. m_4l"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "event_id",
+          "data_kind",
+          "category",
+          "n_objects",
+          "n_leptons"
+        ],
+        "title": "EventSummary",
+        "description": "Lightweight row for the explore/browse list.\n\nDeliberately small: the browser fetches many of these and exactly one full\npayload. Keeping them separate is what stops the list view from pulling\nkinematics for hundreds of events."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "MissingEnergy": {
+        "properties": {
+          "magnitude": {
+            "type": "number",
+            "title": "Magnitude",
+            "description": "GeV"
+          },
+          "phi": {
+            "type": "number",
+            "title": "Phi",
+            "description": "radians"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "magnitude",
+          "phi"
+        ],
+        "title": "MissingEnergy",
+        "description": "Missing transverse energy: the imbalance implying unseen particles."
+      },
+      "ModelInfo": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "title": "Model Id"
+          },
+          "task": {
+            "type": "string",
+            "title": "Task"
+          },
+          "framework": {
+            "type": "string",
+            "title": "Framework"
+          },
+          "feature_set_version": {
+            "type": "string",
+            "title": "Feature Set Version"
+          },
+          "threshold": {
+            "type": "number",
+            "title": "Threshold"
+          },
+          "threshold_selected_on": {
+            "type": "string",
+            "title": "Threshold Selected On",
+            "description": "Which split the threshold was chosen on"
+          },
+          "n_features": {
+            "type": "integer",
+            "title": "N Features"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Metrics",
+            "description": "Numeric metrics only"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_id",
+          "task",
+          "framework",
+          "feature_set_version",
+          "threshold",
+          "threshold_selected_on",
+          "n_features",
+          "metrics",
+          "limitations"
+        ],
+        "title": "ModelInfo",
+        "description": "Public description of a registered model.\n\nLimitations are part of the response, not a footnote elsewhere. A client\nthat shows a score can always show what the score does not mean."
+      },
+      "Prediction": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "title": "Model Id"
+          },
+          "task": {
+            "type": "string",
+            "title": "Task"
+          },
+          "score": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Score",
+            "description": "Discriminant, not a probability"
+          },
+          "threshold": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Threshold"
+          },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "signal-like",
+              "background-like"
+            ],
+            "title": "Classification"
+          },
+          "feature_set_version": {
+            "type": "string",
+            "title": "Feature Set Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "model_id",
+          "task",
+          "score",
+          "threshold",
+          "classification",
+          "feature_set_version"
+        ],
+        "title": "Prediction",
+        "description": "A model's output for this event.\n\n``score`` is a **discriminant**, not a probability. The training class\nbalance is a choice rather than a physical prior, so the number cannot be\nread as \"chance this is signal\". See docs/SCIENTIFIC_INTEGRITY.md section 3.\nThe threshold is carried alongside so the score is never shown bare."
+      },
+      "Provenance": {
+        "properties": {
+          "dataset": {
+            "type": "string",
+            "title": "Dataset"
+          },
+          "record_url": {
+            "type": "string",
+            "title": "Record Url"
+          },
+          "doi": {
+            "type": "string",
+            "title": "Doi"
+          },
+          "licence": {
+            "type": "string",
+            "title": "Licence",
+            "default": "CC0-1.0"
+          },
+          "source_file": {
+            "type": "string",
+            "title": "Source File"
+          },
+          "pipeline_version": {
+            "type": "string",
+            "title": "Pipeline Version"
+          },
+          "accessed": {
+            "type": "string",
+            "title": "Accessed",
+            "description": "ISO date the source was downloaded"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "dataset",
+          "record_url",
+          "doi",
+          "source_file",
+          "pipeline_version",
+          "accessed"
+        ],
+        "title": "Provenance",
+        "description": "Where this event came from and how it was processed."
+      },
+      "ReconstructedObject": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "muon",
+              "electron",
+              "jet",
+              "photon"
+            ],
+            "title": "Type"
+          },
+          "charge": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Charge",
+            "description": "None where charge is not measured, e.g. jets"
+          },
+          "pt": {
+            "type": "number",
+            "title": "Pt",
+            "description": "Transverse momentum, GeV"
+          },
+          "eta": {
+            "type": "number",
+            "title": "Eta",
+            "description": "Pseudorapidity"
+          },
+          "phi": {
+            "type": "number",
+            "title": "Phi",
+            "description": "Azimuthal angle, radians"
+          },
+          "energy": {
+            "type": "number",
+            "title": "Energy",
+            "description": "Energy, GeV"
+          },
+          "px": {
+            "type": "number",
+            "title": "Px"
+          },
+          "py": {
+            "type": "number",
+            "title": "Py"
+          },
+          "pz": {
+            "type": "number",
+            "title": "Pz"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "pt",
+          "eta",
+          "phi",
+          "energy",
+          "px",
+          "py",
+          "pz"
+        ],
+        "title": "ReconstructedObject",
+        "description": "One reconstructed particle or jet.\n\nMomentum is stored in both collider coordinates (what the detector reports)\nand Cartesian components (what the renderer needs), because deriving one\nfrom the other in the browser would duplicate physics code that is already\ntested in Python. ``px``/``py``/``pz`` define the direction of the display\nray; see the note on tracks below."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

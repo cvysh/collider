@@ -55,3 +55,8 @@ out/
 # Visual reference material is for local use only, never committed.
 assets/reference/*
 !assets/reference/README.md
+
+# Frontend build output (node_modules/.next already covered above)
+web/.next/
+web/out/
+web/next-env.d.ts

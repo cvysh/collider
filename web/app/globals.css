@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* Palette from docs/design/DIRECTION.md and SPEC section 24.1.
+   Accents are rare; most of the UI stays dark. */
+@theme {
+  --color-void: #07100f;
+  --color-deep: #07131a;
+  --color-panel: #0d1a22;
+  --color-panel-raised: #12222c;
+  --color-edge: #1d3340;
+
+  --color-mint: #69f7c6;
+  --color-cyan: #39c9ff;
+  --color-plasma: #ff9d3d;
+  --color-hot: #ff5d5d;
+  --color-paper: #f2f0e9;
+
+  --color-muted: #7d94a1;
+  --color-dim: #4d646f;
+
+  --font-display: var(--font-display), system-ui, sans-serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, monospace;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numbers must not reflow when they change. Non-negotiable for readouts
+   that update on hover or selection. */
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Slightly irregular panel corners -- SPEC section 24.3, "not sterile
+   corporate rectangles". Subtle enough to stay legible. */
+.panel {
+  background: color-mix(in oklab, var(--color-panel) 92%, transparent);
+  border: 1px solid var(--color-edge);
+  border-radius: 14px 10px 15px 9px;
+}
+
+.panel-raised {
+  background: var(--color-panel-raised);
+  border: 1px solid var(--color-edge);
+  border-radius: 11px 15px 10px 14px;
+}
+
+/* Faint technical grid; must never compete with data. */
+.grid-bg {
+  background-image:
+    linear-gradient(color-mix(in oklab, var(--color-edge) 35%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--color-edge) 35%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
