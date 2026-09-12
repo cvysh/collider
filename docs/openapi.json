@@ -142,6 +142,48 @@
         }
       }
     },
+    "/api/distributions/{quantity}": {
+      "get": {
+        "summary": "Get Distribution",
+        "description": "A precomputed binned spectrum.\n\nReturned as-is rather than through a response model: the payload is a\npipeline artifact with its own schema_version, and re-declaring its\nshape here would create a second definition to keep in step.",
+        "operationId": "get_distribution_api_distributions__quantity__get",
+        "parameters": [
+          {
+            "name": "quantity",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Quantity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Distribution Api Distributions  Quantity  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/models": {
       "get": {
         "summary": "List Models",

@@ -55,6 +55,30 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/distributions/{quantity}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Distribution
+         * @description A precomputed binned spectrum.
+         *
+         *     Returned as-is rather than through a response model: the payload is a
+         *     pipeline artifact with its own schema_version, and re-declaring its
+         *     shape here would create a second definition to keep in step.
+         */
+        get: operations["get_distribution_api_distributions__quantity__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/models": {
         parameters: {
             query?: never;
@@ -434,6 +458,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["EventPayload"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_distribution_api_distributions__quantity__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                quantity: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
