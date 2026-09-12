@@ -1,7 +1,11 @@
 # ---- Data: never commit CERN source data or derived bulk artifacts ----
 data/raw/
 data/interim/
-data/processed/
+# Derived bulk data stays out, but the curated event artifacts the web app
+# serves are small (512 KB total) and are committed so the frontend runs
+# without re-running the pipeline.
+data/processed/*
+!data/processed/events/
 *.root
 *.parquet
 *.h5

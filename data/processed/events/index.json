@@ -1,0 +1,1365 @@
+{
+ "schema_version": "1.0",
+ "events": [
+  {
+   "event_id": "data-zmumu-87950",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 88.124
+   }
+  },
+  {
+   "event_id": "data-zmumu-111152",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 91.485
+   }
+  },
+  {
+   "event_id": "data-zmumu-82611",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 87.117
+   }
+  },
+  {
+   "event_id": "data-zmumu-103000",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 88.249
+   }
+  },
+  {
+   "event_id": "data-zmumu-62933",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 91.555
+   }
+  },
+  {
+   "event_id": "data-zmumu-3541",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 90.106
+   }
+  },
+  {
+   "event_id": "data-zmumu-112281",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 92.353
+   }
+  },
+  {
+   "event_id": "data-zmumu-37357",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 91.66
+   }
+  },
+  {
+   "event_id": "data-zmumu-43312",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 89.738
+   }
+  },
+  {
+   "event_id": "data-zmumu-19714",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 89.984
+   }
+  },
+  {
+   "event_id": "data-zmumu-79830",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 95.156
+   }
+  },
+  {
+   "event_id": "data-zmumu-102611",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 86.756
+   }
+  },
+  {
+   "event_id": "data-zmumu-53437",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 92.047
+   }
+  },
+  {
+   "event_id": "data-zmumu-112040",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 91.82
+   }
+  },
+  {
+   "event_id": "data-zmumu-46856",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 89.229
+   }
+  },
+  {
+   "event_id": "data-zmumu-68356",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 93.111
+   }
+  },
+  {
+   "event_id": "data-zmumu-37669",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 87.869
+   }
+  },
+  {
+   "event_id": "data-zmumu-11650",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 91.982
+   }
+  },
+  {
+   "event_id": "data-zmumu-38047",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 95.632
+   }
+  },
+  {
+   "event_id": "data-zmumu-28336",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 90.0
+   }
+  },
+  {
+   "event_id": "data-zmumu-112107",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 94.128
+   }
+  },
+  {
+   "event_id": "data-zmumu-60946",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 89.062
+   }
+  },
+  {
+   "event_id": "data-zmumu-104757",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 91.585
+   }
+  },
+  {
+   "event_id": "data-zmumu-4752",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 91.984
+   }
+  },
+  {
+   "event_id": "data-zmumu-38228",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 95.634
+   }
+  },
+  {
+   "event_id": "data-zmumu-103168",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 91.776
+   }
+  },
+  {
+   "event_id": "data-zmumu-68421",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 89.332
+   }
+  },
+  {
+   "event_id": "data-zmumu-46366",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 95.167
+   }
+  },
+  {
+   "event_id": "data-zmumu-24803",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 92.913
+   }
+  },
+  {
+   "event_id": "data-zmumu-37493",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 93.306
+   }
+  },
+  {
+   "event_id": "data-zmumu-105724",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 94.463
+   }
+  },
+  {
+   "event_id": "data-zmumu-66522",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 89.575
+   }
+  },
+  {
+   "event_id": "data-zmumu-91654",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 90.113
+   }
+  },
+  {
+   "event_id": "data-zmumu-3063",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 89.117
+   }
+  },
+  {
+   "event_id": "data-zmumu-56499",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 89.939
+   }
+  },
+  {
+   "event_id": "data-zmumu-89178",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 92.557
+   }
+  },
+  {
+   "event_id": "data-zmumu-72100",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 92.304
+   }
+  },
+  {
+   "event_id": "data-zmumu-78677",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 88.584
+   }
+  },
+  {
+   "event_id": "data-zmumu-24940",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 93.642
+   }
+  },
+  {
+   "event_id": "data-zmumu-104576",
+   "data_kind": "measured",
+   "category": "Z\u2192\u03bc\u03bc candidate (real data)",
+   "n_objects": 2,
+   "n_leptons": 2,
+   "headline": {
+    "m_mumu": 90.41
+   }
+  },
+  {
+   "event_id": "mc-signal-118662",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 125.871,
+    "m_z1": 92.871,
+    "m_z2": 29.387
+   }
+  },
+  {
+   "event_id": "mc-signal-45217",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 124.693,
+    "m_z1": 57.643,
+    "m_z2": 14.328
+   }
+  },
+  {
+   "event_id": "mc-signal-75308",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 124.463,
+    "m_z1": 79.149,
+    "m_z2": 18.637
+   }
+  },
+  {
+   "event_id": "mc-signal-87771",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 124.827,
+    "m_z1": 89.858,
+    "m_z2": 21.733
+   }
+  },
+  {
+   "event_id": "mc-signal-8801",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 126.02,
+    "m_z1": 71.023,
+    "m_z2": 13.347
+   }
+  },
+  {
+   "event_id": "mc-signal-104945",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 122.978,
+    "m_z1": 73.217,
+    "m_z2": 27.305
+   }
+  },
+  {
+   "event_id": "mc-signal-33712",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 125.138,
+    "m_z1": 92.274,
+    "m_z2": 23.801
+   }
+  },
+  {
+   "event_id": "mc-signal-122221",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 126.641,
+    "m_z1": 92.244,
+    "m_z2": 22.454
+   }
+  },
+  {
+   "event_id": "mc-signal-65788",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 123.763,
+    "m_z1": 81.298,
+    "m_z2": 31.123
+   }
+  },
+  {
+   "event_id": "mc-signal-67697",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 125.196,
+    "m_z1": 79.222,
+    "m_z2": 32.529
+   }
+  },
+  {
+   "event_id": "mc-signal-92471",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 124.528,
+    "m_z1": 77.961,
+    "m_z2": 13.404
+   }
+  },
+  {
+   "event_id": "mc-signal-30939",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 122.353,
+    "m_z1": 87.43,
+    "m_z2": 20.682
+   }
+  },
+  {
+   "event_id": "mc-signal-7449",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 114.211,
+    "m_z1": 76.946,
+    "m_z2": 21.866
+   }
+  },
+  {
+   "event_id": "mc-signal-88783",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 125.296,
+    "m_z1": 86.973,
+    "m_z2": 8.839
+   }
+  },
+  {
+   "event_id": "mc-signal-114788",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 123.589,
+    "m_z1": 89.296,
+    "m_z2": 22.81
+   }
+  },
+  {
+   "event_id": "mc-signal-121856",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 128.141,
+    "m_z1": 83.692,
+    "m_z2": 28.723
+   }
+  },
+  {
+   "event_id": "mc-signal-63584",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 121.802,
+    "m_z1": 90.598,
+    "m_z2": 11.633
+   }
+  },
+  {
+   "event_id": "mc-signal-11865",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 126.931,
+    "m_z1": 88.335,
+    "m_z2": 35.409
+   }
+  },
+  {
+   "event_id": "mc-signal-109379",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 127.291,
+    "m_z1": 88.212,
+    "m_z2": 21.518
+   }
+  },
+  {
+   "event_id": "mc-signal-30239",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 120.383,
+    "m_z1": 65.305,
+    "m_z2": 31.557
+   }
+  },
+  {
+   "event_id": "mc-signal-74113",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 125.338,
+    "m_z1": 90.855,
+    "m_z2": 13.136
+   }
+  },
+  {
+   "event_id": "mc-signal-105129",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 121.905,
+    "m_z1": 89.691,
+    "m_z2": 28.211
+   }
+  },
+  {
+   "event_id": "mc-signal-2559",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 124.072,
+    "m_z1": 91.472,
+    "m_z2": 11.379
+   }
+  },
+  {
+   "event_id": "mc-signal-64383",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 122.554,
+    "m_z1": 78.158,
+    "m_z2": 30.041
+   }
+  },
+  {
+   "event_id": "mc-signal-71299",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 121.949,
+    "m_z1": 77.662,
+    "m_z2": 39.138
+   }
+  },
+  {
+   "event_id": "mc-signal-38812",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 122.446,
+    "m_z1": 84.063,
+    "m_z2": 13.897
+   }
+  },
+  {
+   "event_id": "mc-signal-99571",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 114.909,
+    "m_z1": 69.948,
+    "m_z2": 31.652
+   }
+  },
+  {
+   "event_id": "mc-signal-106810",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 122.468,
+    "m_z1": 81.411,
+    "m_z2": 29.255
+   }
+  },
+  {
+   "event_id": "mc-signal-98564",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 125.744,
+    "m_z1": 91.338,
+    "m_z2": 27.952
+   }
+  },
+  {
+   "event_id": "mc-signal-63938",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 123.782,
+    "m_z1": 88.288,
+    "m_z2": 33.402
+   }
+  },
+  {
+   "event_id": "mc-signal-90588",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 124.951,
+    "m_z1": 89.729,
+    "m_z2": 30.551
+   }
+  },
+  {
+   "event_id": "mc-signal-121250",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 122.775,
+    "m_z1": 90.831,
+    "m_z2": 12.192
+   }
+  },
+  {
+   "event_id": "mc-signal-18088",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 124.434,
+    "m_z1": 91.445,
+    "m_z2": 15.35
+   }
+  },
+  {
+   "event_id": "mc-signal-89302",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 124.466,
+    "m_z1": 86.348,
+    "m_z2": 28.516
+   }
+  },
+  {
+   "event_id": "mc-signal-67166",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 124.816,
+    "m_z1": 91.21,
+    "m_z2": 20.323
+   }
+  },
+  {
+   "event_id": "mc-signal-101778",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 125.712,
+    "m_z1": 87.803,
+    "m_z2": 35.712
+   }
+  },
+  {
+   "event_id": "mc-signal-46458",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 108.992,
+    "m_z1": 74.128,
+    "m_z2": 32.548
+   }
+  },
+  {
+   "event_id": "mc-signal-55713",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 126.167,
+    "m_z1": 71.694,
+    "m_z2": 44.128
+   }
+  },
+  {
+   "event_id": "mc-signal-64535",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 120.086,
+    "m_z1": 79.999,
+    "m_z2": 22.715
+   }
+  },
+  {
+   "event_id": "mc-signal-35679",
+   "data_kind": "simulated",
+   "category": "H\u2192ZZ\u21924\u2113 (simulated signal)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 127.221,
+    "m_z1": 93.197,
+    "m_z2": 25.711
+   }
+  },
+  {
+   "event_id": "mc-background-3776",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 427.358,
+    "m_z1": 92.888,
+    "m_z2": 88.185
+   }
+  },
+  {
+   "event_id": "mc-background-2292",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 176.138,
+    "m_z1": 92.914,
+    "m_z2": 79.388
+   }
+  },
+  {
+   "event_id": "mc-background-3106",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 403.469,
+    "m_z1": 91.692,
+    "m_z2": 87.883
+   }
+  },
+  {
+   "event_id": "mc-background-4274",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 119.515,
+    "m_z1": 73.591,
+    "m_z2": 7.101
+   }
+  },
+  {
+   "event_id": "mc-background-1808",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 190.57,
+    "m_z1": 89.024,
+    "m_z2": 97.614
+   }
+  },
+  {
+   "event_id": "mc-background-984",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 215.774,
+    "m_z1": 89.478,
+    "m_z2": 93.081
+   }
+  },
+  {
+   "event_id": "mc-background-4295",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 268.649,
+    "m_z1": 92.439,
+    "m_z2": 95.394
+   }
+  },
+  {
+   "event_id": "mc-background-1565",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 297.6,
+    "m_z1": 90.214,
+    "m_z2": 89.287
+   }
+  },
+  {
+   "event_id": "mc-background-1852",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 88.509,
+    "m_z1": 73.977,
+    "m_z2": 4.256
+   }
+  },
+  {
+   "event_id": "mc-background-1148",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 331.117,
+    "m_z1": 91.215,
+    "m_z2": 115.76
+   }
+  },
+  {
+   "event_id": "mc-background-4046",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 241.432,
+    "m_z1": 91.362,
+    "m_z2": 91.402
+   }
+  },
+  {
+   "event_id": "mc-background-3217",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 234.494,
+    "m_z1": 90.55,
+    "m_z2": 90.136
+   }
+  },
+  {
+   "event_id": "mc-background-859",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 332.351,
+    "m_z1": 90.822,
+    "m_z2": 91.851
+   }
+  },
+  {
+   "event_id": "mc-background-4211",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 231.942,
+    "m_z1": 91.658,
+    "m_z2": 92.115
+   }
+  },
+  {
+   "event_id": "mc-background-3558",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 383.245,
+    "m_z1": 90.998,
+    "m_z2": 95.5
+   }
+  },
+  {
+   "event_id": "mc-background-2787",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 175.988,
+    "m_z1": 93.407,
+    "m_z2": 70.195
+   }
+  },
+  {
+   "event_id": "mc-background-2870",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 190.804,
+    "m_z1": 88.323,
+    "m_z2": 87.254
+   }
+  },
+  {
+   "event_id": "mc-background-2368",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 209.508,
+    "m_z1": 90.485,
+    "m_z2": 46.534
+   }
+  },
+  {
+   "event_id": "mc-background-2830",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 460.373,
+    "m_z1": 91.62,
+    "m_z2": 118.931
+   }
+  },
+  {
+   "event_id": "mc-background-1118",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 202.386,
+    "m_z1": 84.132,
+    "m_z2": 70.636
+   }
+  },
+  {
+   "event_id": "mc-background-144",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 184.152,
+    "m_z1": 79.451,
+    "m_z2": 73.554
+   }
+  },
+  {
+   "event_id": "mc-background-2530",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 469.119,
+    "m_z1": 91.798,
+    "m_z2": 89.697
+   }
+  },
+  {
+   "event_id": "mc-background-1728",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 295.849,
+    "m_z1": 99.742,
+    "m_z2": 74.598
+   }
+  },
+  {
+   "event_id": "mc-background-3401",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 286.976,
+    "m_z1": 88.805,
+    "m_z2": 86.061
+   }
+  },
+  {
+   "event_id": "mc-background-3372",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 130.479,
+    "m_z1": 90.229,
+    "m_z2": 10.876
+   }
+  },
+  {
+   "event_id": "mc-background-4466",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 404.979,
+    "m_z1": 88.848,
+    "m_z2": 96.566
+   }
+  },
+  {
+   "event_id": "mc-background-2700",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 236.343,
+    "m_z1": 90.286,
+    "m_z2": 93.229
+   }
+  },
+  {
+   "event_id": "mc-background-2847",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 480.286,
+    "m_z1": 88.001,
+    "m_z2": 82.864
+   }
+  },
+  {
+   "event_id": "mc-background-3295",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 475.078,
+    "m_z1": 87.011,
+    "m_z2": 50.32
+   }
+  },
+  {
+   "event_id": "mc-background-2093",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 219.362,
+    "m_z1": 90.912,
+    "m_z2": 91.776
+   }
+  },
+  {
+   "event_id": "mc-background-2627",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 356.259,
+    "m_z1": 92.415,
+    "m_z2": 93.196
+   }
+  },
+  {
+   "event_id": "mc-background-1231",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 451.01,
+    "m_z1": 87.563,
+    "m_z2": 84.555
+   }
+  },
+  {
+   "event_id": "mc-background-1082",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 236.29,
+    "m_z1": 89.88,
+    "m_z2": 94.408
+   }
+  },
+  {
+   "event_id": "mc-background-3137",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 93.653,
+    "m_z1": 64.542,
+    "m_z2": 4.408
+   }
+  },
+  {
+   "event_id": "mc-background-1607",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 90.637,
+    "m_z1": 61.606,
+    "m_z2": 24.046
+   }
+  },
+  {
+   "event_id": "mc-background-4066",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 338.159,
+    "m_z1": 91.554,
+    "m_z2": 95.444
+   }
+  },
+  {
+   "event_id": "mc-background-2155",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 159.011,
+    "m_z1": 99.523,
+    "m_z2": 12.167
+   }
+  },
+  {
+   "event_id": "mc-background-761",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 159.017,
+    "m_z1": 95.824,
+    "m_z2": 7.095
+   }
+  },
+  {
+   "event_id": "mc-background-56",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 197.206,
+    "m_z1": 88.771,
+    "m_z2": 94.554
+   }
+  },
+  {
+   "event_id": "mc-background-3774",
+   "data_kind": "simulated",
+   "category": "ZZ\u21924\u2113 (simulated background)",
+   "n_objects": 4,
+   "n_leptons": 4,
+   "headline": {
+    "m_4l": 148.96,
+    "m_z1": 87.251,
+    "m_z2": 8.966
+   }
+  }
+ ]
+}
