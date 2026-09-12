@@ -70,3 +70,59 @@ user as a property of nature.
 The φ asymmetry must **not** be normalised away. It is a real property of the
 apparatus, and a model that learns it is learning something true about how the
 data was collected.
+
+---
+
+## 3. MC weights invert the sample by a factor of ~1,000
+
+**Script:** `scripts/plot_mc_weights.py` · **Test:** `tests/test_weights.py`
+· **Figure:** `figures/mc_weights.png`
+
+The two 4-lepton samples, normalised to 36 fb⁻¹:
+
+| | ggH→ZZ→4ℓ (signal) | ZZ→4ℓ (background) |
+|---|---|---|
+| Generated events | 424,880 | 11,458 |
+| **Expected events in 36 fb⁻¹** | **53.6** | **1,508** |
+| `xsec` | 28.3 pb | 1.2974 pb |
+| `filteff` | 1.24 × 10⁻⁴ | 1.0 |
+| `kfac` | 1.717 | 1.0 |
+| Negative weights | 0.22% | 8.58% |
+| N_eff | 403,230 (94.9%) | 3,621 (**31.6%**) |
+| Skim retained | 26.6% of generated weight | 3.5% |
+
+Raw, signal outnumbers background **37 : 1**. Physically, background
+outnumbers signal **28 : 1**. The generated sample is inverted relative to
+nature by a factor of **1,044**.
+
+### Consequences
+
+1. **Unweighted MC histograms are meaningless.** They describe a generation
+   campaign, not the universe.
+2. **Training class balance is a free parameter**, not a measurement. This is
+   why a classifier output must be reported as a *discriminant score* and never
+   as a probability — the prior is something we chose. See
+   `SCIENTIFIC_INTEGRITY.md` §3.
+3. **The background sample is weaker than it looks.** N_eff of 3,621 from
+   11,458 rows: only 32% of the apparent statistical power survives the spread
+   of weights and the 8.6% negative fraction. Statistical uncertainty is
+   `sqrt(sum w²)`, not `sqrt(N)`.
+4. **Negative weights must be kept.** Sherpa produces 8.6% of ZZ events with
+   negative weight. Dropping them breaks the cancellation that makes
+   higher-order calculations finite and biases yields upward.
+5. **Normalise by `sum_of_weights`, never by the sum over your own file.**
+   These files are skims retaining 27% and 3.5% of generated weight; using the
+   local sum would inflate yields by 4× and 28× respectively.
+
+### Schema note
+
+MC and data trees are **not identical**: data has a `category` branch (116 vs
+117 branches) that MC lacks. Any loader reading both must not assume a common
+branch list.
+
+### Open item — luminosity
+
+The 36 fb⁻¹ figure is the full 2015+2016 release. The real-data file currently
+held is `data15 periodD` only, a small fraction of that. MC normalised to
+36 fb⁻¹ **cannot** be overlaid on it directly. Resolve the per-period
+luminosity before making any data/MC comparison plot.
