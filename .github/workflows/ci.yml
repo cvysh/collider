@@ -19,18 +19,22 @@ jobs:
       - name: Set up Python
         run: uv python install 3.13
 
+      # The runner's system Python is externally managed, so --system is
+      # refused. Install into a venv and reach it through `uv run`.
       - name: Install project
-        run: uv pip install --system -e ".[dev]"
+        run: |
+          uv venv
+          uv pip install -e ".[dev]"
 
       - name: Lint
-        run: ruff check .
+        run: uv run ruff check .
 
       - name: Format check
-        run: ruff format --check .
+        run: uv run ruff format --check .
 
       # Includes the physics validation: the dimuon spectrum must reproduce
       # the J/psi, Upsilon and Z masses from real ATLAS data. If this fails,
       # the four-vector arithmetic or unit convention is wrong and no
       # downstream result can be trusted.
       - name: Tests
-        run: pytest -v
+        run: uv run pytest -v

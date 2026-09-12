@@ -12,6 +12,9 @@ data/processed/*
 *.hdf5
 *.npy
 *.npz
+# ...except the 352 KB dimuon fixture. It is CC0 ATLAS Open Data and the
+# physics oracle cannot run in CI without it.
+!tests/fixtures/*.npz
 
 # ---- Model artifacts (tracked by registry, stored in object storage) ----
 ml/models/*
