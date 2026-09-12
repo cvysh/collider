@@ -201,6 +201,33 @@ export interface components {
                 [key: string]: number;
             };
         };
+        /**
+         * FeatureContribution
+         * @description How much one feature moved this event's score.
+         *
+         *     SHAP values from the trained booster: additive contributions in log-odds
+         *     that sum, with the base value, to the model's raw output for this event.
+         *     Unlike global feature importance these are **per-event** -- they say what
+         *     drove *this* score, which is what SPEC section 15 asks the explanation
+         *     layer to provide.
+         *
+         *     A contribution describes what the model used. It is not a claim about
+         *     physical causation (SCIENTIFIC_INTEGRITY.md section 8).
+         */
+        FeatureContribution: {
+            /** Feature */
+            feature: string;
+            /**
+             * Value
+             * @description The feature's value for this event
+             */
+            value: number;
+            /**
+             * Contribution
+             * @description Signed log-odds shift
+             */
+            contribution: number;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -285,6 +312,8 @@ export interface components {
             classification: "signal-like" | "background-like";
             /** Feature Set Version */
             feature_set_version: string;
+            /** Contributions */
+            contributions?: components["schemas"]["FeatureContribution"][];
         };
         /**
          * Provenance

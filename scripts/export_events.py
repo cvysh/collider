@@ -30,12 +30,14 @@ from pathlib import Path
 import awkward as ak
 import numpy as np
 import uproot
+import xgboost as xgb
 from xgboost import XGBClassifier
 
 from collider.api.schema import (
     SCHEMA_VERSION,
     EventPayload,
     EventSummary,
+    FeatureContribution,
     MissingEnergy,
     Prediction,
     Provenance,
@@ -162,6 +164,30 @@ def export_dimuon(rng) -> list[EventPayload]:
     return out
 
 
+#: How many contributions to carry. Enough to explain, few enough to read.
+N_CONTRIBUTIONS = 6
+
+
+def _top_contributions(row, values, names) -> list[FeatureContribution]:
+    """Largest absolute SHAP contributions for one event, biggest first.
+
+    The final column of an XGBoost contribution row is the bias term, not a
+    feature, so it is dropped.
+    """
+    if row is None or not np.isfinite(row).all():
+        return []
+    shap = row[:-1]
+    order = np.argsort(-np.abs(shap))[:N_CONTRIBUTIONS]
+    return [
+        FeatureContribution(
+            feature=names[j],
+            value=round(float(values[j]), 4),
+            contribution=round(float(shap[j]), 4),
+        )
+        for j in order
+    ]
+
+
 def load_model():
     """Load the registered model, or None if it has not been trained yet."""
     if not REGISTRY_PATH.exists():
@@ -210,10 +236,21 @@ def export_fourlepton(key: str, label: str, rng, model, entry) -> list[EventPayl
     # fixed (event, model, feature-set), so precomputing them keeps the live
     # path a lookup rather than an inference call (ADR-0002).
     scores = None
+    contribs = None
     if model is not None:
         built = build_features(ev)
         scores = np.full(len(pt), np.nan)
         scores[built["source_index"]] = model.predict_proba(built["features"])[:, 1]
+
+        # SHAP contributions straight from the booster: additive log-odds
+        # shifts per feature, plus a bias term in the final column. These are
+        # per-event, unlike the global permutation importance in
+        # ml/models/comparison.json.
+        raw = model.get_booster().predict(xgb.DMatrix(built["features"]), pred_contribs=True)
+        contribs = np.full((len(pt), raw.shape[1]), np.nan)
+        contribs[built["source_index"]] = raw
+        feature_values = np.full((len(pt), built["features"].shape[1]), np.nan)
+        feature_values[built["source_index"]] = built["features"]
 
     met = ak.to_numpy(ev.met).astype(np.float64)
     met_phi = ak.to_numpy(ev.met_phi).astype(np.float64) if "met_phi" in ev.fields else None
@@ -234,6 +271,7 @@ def export_fourlepton(key: str, label: str, rng, model, entry) -> list[EventPayl
                 threshold=entry.threshold,
                 classification=("signal-like" if score >= entry.threshold else "background-like"),
                 feature_set_version=entry.feature_set_version,
+                contributions=_top_contributions(contribs[i], feature_values[i], entry.features),
             )
         else:
             reason = "Model artifact unavailable at export time."

@@ -26,17 +26,19 @@ copyrighted reference.
 
 ## Tokens
 
+Deep navy and almost-black grounds, per `BRIEF.md`.
+
 | Token | Hex | Role |
 |---|---|---|
-| `ground` | `#0b1410` | Page. Murky green-black, never neutral |
-| `panel` | `#14211a` | Surfaces |
-| `ink` | `#050a07` | Outlines — 2px, not hairlines |
-| `portal` | `#9bcf4f` | The signature. Once per screen, never twice |
-| `toxic` | `#3fbfb0` | Secondary accent, electrons |
-| `bruise` | `#7b5ea7` | Tertiary |
-| `hazard` | `#e8c547` | Warnings, tape, thresholds, visual-aid banners |
+| `ground` | `#060a14` | Page. Deep navy-black |
+| `panel` | `#0e1626` | Laboratory surfaces |
+| `ink` | `#03060e` | Outlines — 2px, not hairlines |
+| `portal` | `#8fe04a` | Radioactive green. The signature; once per screen |
+| `toxic` | `#3fd4ef` | Electric cyan. Electrons, secondary accent |
+| `bruise` | `#8b6bc4` | Purple. Tertiary, negative contributions |
+| `hazard` | `#f0b429` | Warnings, tape, thresholds, visual-aid banners |
 | `alarm` | `#ef5b4c` | Errors, model disagreement |
-| `paper` | `#ede6d3` | Text. Yellowed, not white |
+| `paper` | `#ece8dd` | Text. Off-white, never pure |
 
 ### Chart series are not brand colours
 
@@ -87,6 +89,35 @@ comes from real geometry rather than from an imitated prop.
 
 Static SVG: SPEC §6.1 and §21.2 forbid the 3D bundle on a page that renders no
 event.
+
+## Instrument readouts
+
+The analysis panel and the event cards are built as laboratory instruments —
+stencilled casing labels, blinking status lamps, rivets clipped to the panel
+edge, big monospaced numerals with small quiet labels beneath.
+
+The contribution bars are **real per-event SHAP values** from the trained
+booster: additive log-odds shifts that say what drove *this* score, not global
+importance. They diverge from a centre zero — green pushed the score up, purple
+down.
+
+The brief's example panel lists invariant mass as a contributing factor. It
+cannot appear, because it is excluded from the feature set by design. What
+appears instead is what the model genuinely used, and for a signal event that
+is dominated by `m_z2` — the off-shell Z, which is the physical signature of a
+125 GeV parent.
+
+## Legibility corrections made during the pass
+
+Two decorations were dialled back after looking at them on screen, following
+the brief's own priority order:
+
+- **Rivets** tiled the whole panel and showed through the readout text. Now
+  clipped to a 14px border strip.
+- **Grain** at 0.28 opacity competed with monospaced numerals. Reduced to 0.15.
+
+Neither was a matter of taste. A decoration that makes a number harder to read
+has failed at priority 2 of 6.
 
 ## Still to do
 

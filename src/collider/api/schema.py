@@ -34,6 +34,7 @@ from pydantic import BaseModel, ConfigDict, Field
 __all__ = [
     "SCHEMA_VERSION",
     "EventPayload",
+    "FeatureContribution",
     "EventSummary",
     "MissingEnergy",
     "Prediction",
@@ -89,6 +90,24 @@ class MissingEnergy(_Strict):
     phi: float = Field(..., description="radians")
 
 
+class FeatureContribution(_Strict):
+    """How much one feature moved this event's score.
+
+    SHAP values from the trained booster: additive contributions in log-odds
+    that sum, with the base value, to the model's raw output for this event.
+    Unlike global feature importance these are **per-event** -- they say what
+    drove *this* score, which is what SPEC section 15 asks the explanation
+    layer to provide.
+
+    A contribution describes what the model used. It is not a claim about
+    physical causation (SCIENTIFIC_INTEGRITY.md section 8).
+    """
+
+    feature: str
+    value: float = Field(..., description="The feature's value for this event")
+    contribution: float = Field(..., description="Signed log-odds shift")
+
+
 class Prediction(_Strict):
     """A model's output for this event.
 
@@ -104,6 +123,9 @@ class Prediction(_Strict):
     threshold: float = Field(..., ge=0.0, le=1.0)
     classification: Literal["signal-like", "background-like"]
     feature_set_version: str
+    #: Largest absolute contributions first. Empty when the model cannot
+    #: produce them rather than fabricated.
+    contributions: list[FeatureContribution] = Field(default_factory=list)
 
 
 class Provenance(_Strict):

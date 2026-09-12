@@ -22,9 +22,17 @@ export default function Home() {
             C<span className="text-portal">O</span>LLIDER
           </h1>
 
-          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
-            Real particle collisions from CERN. A classifier that is honest about
-            what it knows. And a detector you can spin around.
+          <p className="mt-5 font-display text-2xl leading-tight tracking-wide text-muted">
+            REAL PARTICLES.
+            <br />
+            REAL DATA.
+            <br />
+            <span className="text-toxic">REAL UNCERTAINTY.</span>
+          </p>
+
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-dim">
+            Collisions recorded by ATLAS, a classifier that says what it does not
+            know, and a detector you can spin around.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -43,7 +51,11 @@ export default function Home() {
             </Link>
           </div>
 
-          <Narrator slot="landing_first_visit" className="mt-10 max-w-md" />
+          <p className="scrawl mt-4 text-sm text-dim">
+            what could possibly go wrong
+          </p>
+
+          <Narrator slot="landing_first_visit" className="mt-8 max-w-md" />
         </div>
 
         <div className="relative mx-auto w-full max-w-md">

@@ -446,6 +446,33 @@
         "title": "EventSummary",
         "description": "Lightweight row for the explore/browse list.\n\nDeliberately small: the browser fetches many of these and exactly one full\npayload. Keeping them separate is what stops the list view from pulling\nkinematics for hundreds of events."
       },
+      "FeatureContribution": {
+        "properties": {
+          "feature": {
+            "type": "string",
+            "title": "Feature"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value",
+            "description": "The feature's value for this event"
+          },
+          "contribution": {
+            "type": "number",
+            "title": "Contribution",
+            "description": "Signed log-odds shift"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "feature",
+          "value",
+          "contribution"
+        ],
+        "title": "FeatureContribution",
+        "description": "How much one feature moved this event's score.\n\nSHAP values from the trained booster: additive contributions in log-odds\nthat sum, with the base value, to the model's raw output for this event.\nUnlike global feature importance these are **per-event** -- they say what\ndrove *this* score, which is what SPEC section 15 asks the explanation\nlayer to provide.\n\nA contribution describes what the model used. It is not a claim about\nphysical causation (SCIENTIFIC_INTEGRITY.md section 8)."
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -577,6 +604,13 @@
           "feature_set_version": {
             "type": "string",
             "title": "Feature Set Version"
+          },
+          "contributions": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureContribution"
+            },
+            "type": "array",
+            "title": "Contributions"
           }
         },
         "additionalProperties": false,

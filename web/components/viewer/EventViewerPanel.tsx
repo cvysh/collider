@@ -20,7 +20,9 @@ const EventViewer = dynamic(
     ssr: false,
     loading: () => (
       <div className="panel grid h-[26rem] place-items-center">
-        <p className="text-xs text-dim">Loading the detector…</p>
+        <p className="stencil animate-pulse">
+          CALIBRATING THE VERY IMPORTANT MACHINES...
+        </p>
       </div>
     ),
   },

@@ -10,26 +10,27 @@
    decoration never obscures a readout.
    ───────────────────────────────────────────────────────────── */
 @theme {
-  /* Murky green-black, never neutral. Nothing here is a clean grey. */
-  --color-ground: #0b1410;
-  --color-panel: #14211a;
-  --color-panel-hi: #1b2b22;
+  /* Deep navy and almost-black. Laboratory surfaces, aged rather than clean. */
+  --color-ground: #060a14;
+  --color-panel: #0e1626;
+  --color-panel-hi: #152034;
 
   /* Ink: the outline colour. Thick and dark, like a marker. */
-  --color-ink: #050a07;
-  --color-ink-soft: #2c4034;
+  --color-ink: #03060e;
+  --color-ink-soft: #2a3a54;
 
-  /* Portal green — the signature. Once per screen, never twice. */
-  --color-portal: #9bcf4f;
-  --color-toxic: #3fbfb0;
-  --color-bruise: #7b5ea7;
-  --color-hazard: #e8c547;
+  /* Radioactive green — the signature. Once per screen, never twice. */
+  --color-portal: #8fe04a;
+  /* Electric cyan. */
+  --color-toxic: #3fd4ef;
+  --color-bruise: #8b6bc4;
+  --color-hazard: #f0b429;
   --color-alarm: #ef5b4c;
 
-  /* Yellowed paper, not white. Annotations and handwriting. */
-  --color-paper: #ede6d3;
-  --color-muted: #93a894;
-  --color-dim: #5d7563;
+  /* Off-white, slightly warm. Never pure white. */
+  --color-paper: #ece8dd;
+  --color-muted: #8a99b5;
+  --color-dim: #566480;
 
   --font-display: var(--font-display), system-ui, sans-serif;
   --font-sans: var(--font-sans), system-ui, sans-serif;
@@ -112,8 +113,10 @@ body {
   inset: 0;
   pointer-events: none;
   background-image: radial-gradient(var(--color-ink-soft) 1px, transparent 1px);
-  background-size: 6px 6px;
-  opacity: 0.28;
+  background-size: 7px 7px;
+  /* Low enough that a monospaced number reads cleanly over it. Raised once
+     to 0.28 and it started competing with the readouts. */
+  opacity: 0.15;
   border-radius: inherit;
 }
 
@@ -176,6 +179,56 @@ body {
   outline-offset: 2px;
 }
 
+/* ── Laboratory furniture ────────────────────────────────────
+   Small decorative details. Every one is aria-hidden and none
+   sits between the reader and a number. */
+
+/* A stencilled instrument label, as if printed onto the casing. */
+.stencil {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--color-dim);
+}
+
+/* Blinking status lamp. Two per screen at most. */
+.lamp {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-ink);
+  animation: blink 2.8s steps(1, end) infinite;
+}
+@keyframes blink {
+  0%, 62% { opacity: 1; }
+  63%, 100% { opacity: 0.25; }
+}
+
+/* Rivets along the panel edge only.
+   An earlier version tiled these across the whole surface and they showed
+   through the readout text. Decoration never competes with a number, so the
+   pattern is clipped to a 14px border strip. */
+.rivets::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: radial-gradient(var(--color-ink-soft) 1.5px, transparent 1.6px);
+  background-size: 14px 14px;
+  background-position: 7px 7px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  padding: 14px;
+  opacity: 0.7;
+}
+
+/* Contribution bar: a physical meter, filled from a centre zero. */
+.meter {
+  background: color-mix(in oklab, var(--color-ink) 60%, transparent);
+  border: 1px solid var(--color-ink);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -183,4 +236,5 @@ body {
     transition-duration: 0.01ms !important;
   }
   .askew-a, .askew-b { transform: none; }
+  .lamp { animation: none; }
 }
