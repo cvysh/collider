@@ -150,6 +150,10 @@ class EventPayload(_Strict):
     derived: dict[str, float] = Field(default_factory=dict)
 
     prediction: Prediction | None = None
+    #: Why no model score is available, when one is not. Populated rather than
+    #: leaving the UI to guess -- SPEC section 36 requires that absent
+    #: quantities be reported, never invented.
+    prediction_unavailable_reason: str | None = None
     provenance: Provenance
 
     def model_post_init(self, _context: object) -> None:

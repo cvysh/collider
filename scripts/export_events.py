@@ -30,23 +30,36 @@ from pathlib import Path
 import awkward as ak
 import numpy as np
 import uproot
+from xgboost import XGBClassifier
 
 from collider.api.schema import (
     SCHEMA_VERSION,
     EventPayload,
     EventSummary,
     MissingEnergy,
+    Prediction,
     Provenance,
     ReconstructedObject,
 )
 from collider.data.atlas import PDG_MUON, load_leptons, select_dilepton
-from collider.features.fourlepton import READ_BRANCHES
+from collider.features.fourlepton import FEATURE_NAMES, READ_BRANCHES, build_features
+from collider.ml.registry import load_registry
 from collider.physics.fourvector import invariant_mass, to_cartesian
 from collider.physics.selection import PAIRINGS, pair_into_z_candidates, select_four_lepton
 
 OUTPUT = Path("data/processed/events/v1")
 RAW = Path("data/raw")
 N_PER_CATEGORY = 40
+REGISTRY_PATH = Path("ml/models/registry.json")
+
+#: The trained model consumes four-lepton features. A two-muon Z candidate has
+#: no second lepton pair, so m_z2 and the third and fourth lepton momenta do
+#: not exist for it. The model cannot score these events, and inventing inputs
+#: to make it possible would be fabrication.
+NO_SCORE_REASON = (
+    "This model scores four-lepton events. This is a two-muon event, which has "
+    "no second lepton pair, so the required features do not exist for it."
+)
 SEED = 20260912
 
 PDG_TO_TYPE = {11: "electron", 13: "muon"}
@@ -142,13 +155,26 @@ def export_dimuon(rng) -> list[EventPayload]:
                 data_kind="measured",
                 objects=make_objects(pt[i], eta[i], phi[i], en[i], q[i], np.full(2, PDG_MUON)),
                 derived={"m_mumu": round(float(mass[i]), 3)},
+                prediction_unavailable_reason=NO_SCORE_REASON,
                 provenance=provenance_for("measured"),
             )
         )
     return out
 
 
-def export_fourlepton(key: str, label: str, rng) -> list[EventPayload]:
+def load_model():
+    """Load the registered model, or None if it has not been trained yet."""
+    if not REGISTRY_PATH.exists():
+        return None, None
+    registry = load_registry(REGISTRY_PATH)
+    entry = next(iter(registry.values()))
+    entry.verify_features(list(FEATURE_NAMES))  # fails loudly on any mismatch
+    booster = XGBClassifier()
+    booster.load_model(REGISTRY_PATH.parent / entry.artifact)
+    return booster, entry
+
+
+def export_fourlepton(key: str, label: str, rng, model, entry) -> list[EventPayload]:
     """Simulated four-lepton events, signal or background."""
     src = SOURCES[key]
     with uproot.open(f"{src['path']}:analysis") as tree:
@@ -180,6 +206,15 @@ def export_fourlepton(key: str, label: str, rng) -> list[EventPayload]:
     pool = np.flatnonzero(valid)
     chosen = rng.choice(pool, size=min(N_PER_CATEGORY, len(pool)), replace=False)
 
+    # Score every selected event once. Predictions are deterministic for a
+    # fixed (event, model, feature-set), so precomputing them keeps the live
+    # path a lookup rather than an inference call (ADR-0002).
+    scores = None
+    if model is not None:
+        built = build_features(ev)
+        scores = np.full(len(pt), np.nan)
+        scores[built["source_index"]] = model.predict_proba(built["features"])[:, 1]
+
     met = ak.to_numpy(ev.met).astype(np.float64)
     met_phi = ak.to_numpy(ev.met_phi).astype(np.float64) if "met_phi" in ev.fields else None
     mcw = ak.to_numpy(ev.mcWeight).astype(np.float64)
@@ -188,6 +223,20 @@ def export_fourlepton(key: str, label: str, rng) -> list[EventPayload]:
 
     out = []
     for i in chosen:
+        prediction = None
+        reason = None
+        if scores is not None and np.isfinite(scores[i]):
+            score = float(scores[i])
+            prediction = Prediction(
+                model_id=entry.model_id,
+                task=entry.task,
+                score=round(score, 6),
+                threshold=entry.threshold,
+                classification=("signal-like" if score >= entry.threshold else "background-like"),
+                feature_set_version=entry.feature_set_version,
+            )
+        else:
+            reason = "Model artifact unavailable at export time."
         out.append(
             EventPayload(
                 event_id=f"mc-{label}-{i}",
@@ -207,6 +256,8 @@ def export_fourlepton(key: str, label: str, rng) -> list[EventPayload]:
                     "m_z1": round(float(mz1[i]), 3),
                     "m_z2": round(float(mz2[i]), 3),
                 },
+                prediction=prediction,
+                prediction_unavailable_reason=reason,
                 provenance=provenance_for(key),
             )
         )
@@ -238,10 +289,13 @@ def main() -> None:
             raise SystemExit(f"missing {src['path']} for '{key}'; see data/raw/README.md")
 
     rng = np.random.default_rng(SEED)
+    model, entry = load_model()
+    if model is None:
+        print("WARNING: no model registry; events will be exported unscored")
     events = (
         export_dimuon(rng)
-        + export_fourlepton("signal", "signal", rng)
-        + export_fourlepton("background", "background", rng)
+        + export_fourlepton("signal", "signal", rng, model, entry)
+        + export_fourlepton("background", "background", rng, model, entry)
     )
 
     OUTPUT.mkdir(parents=True, exist_ok=True)
