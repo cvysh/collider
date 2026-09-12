@@ -18,6 +18,13 @@ export function AnalysisPanel({ event }: { event: EventPayload }) {
   const [phase, setPhase] = useState<"idle" | "running" | "done">("idle");
   const handleDone = useCallback(() => setPhase("done"), []);
 
+  // There is nothing to gate when the model cannot score this event. Offering
+  // the button promises an analysis that cannot happen, and the refusal only
+  // arrives after a click that reads as broken. State the reason up front.
+  if (!event.prediction) {
+    return <PredictionPanel event={event} />;
+  }
+
   if (phase === "done") {
     return <PredictionPanel event={event} />;
   }
@@ -44,9 +51,7 @@ export function AnalysisPanel({ event }: { event: EventPayload }) {
       </div>
 
       <p className="text-sm leading-relaxed text-muted">
-        {event.prediction
-          ? "The classifier has a score for this event."
-          : "This event is outside the model's topology."}
+        The classifier has a score for this event.
       </p>
 
       <button
