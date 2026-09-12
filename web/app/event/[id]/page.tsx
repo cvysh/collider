@@ -4,8 +4,8 @@ import { ApiError, getEvent } from "@/lib/api";
 import { DataKindBadge } from "@/components/DataKindBadge";
 import { DerivedQuantities } from "@/components/DerivedQuantities";
 import { Narrator } from "@/components/Narrator";
-import { ParticleTable } from "@/components/ParticleTable";
 import { PredictionPanel } from "@/components/PredictionPanel";
+import { EventViewerPanel } from "@/components/viewer/EventViewerPanel";
 import { ProvenanceDrawer } from "@/components/ProvenanceDrawer";
 
 export const dynamic = "force-dynamic";
@@ -76,14 +76,8 @@ export default async function EventPage({
             page scrolls horizontally instead of the table scrolling inside its
             own container. */}
         <div className="min-w-0 space-y-4">
-          {/* The 3D scene will mount above this table, never replace it. */}
-          <section>
-            <h2 className="mb-2 text-xs uppercase tracking-wider text-dim">
-              Reconstructed objects
-              <span className="tabular ml-2 text-paper/70">{event.objects.length}</span>
-            </h2>
-            <ParticleTable objects={event.objects} />
-          </section>
+          {/* The 3D scene mounts above the table, never replacing it. */}
+          <EventViewerPanel objects={event.objects} eventId={event.event_id} />
 
           {/* The line names four particles, so it fires only when there are
               four. A narrator that misstates what is on screen is worse than
