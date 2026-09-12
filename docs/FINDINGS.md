@@ -126,3 +126,97 @@ The 36 fb⁻¹ figure is the full 2015+2016 release. The real-data file currentl
 held is `data15 periodD` only, a small fraction of that. MC normalised to
 36 fb⁻¹ **cannot** be overlaid on it directly. Resolve the per-period
 luminosity before making any data/MC comparison plot.
+
+---
+
+## 4. Raw 4-lepton data is dominated by fake leptons
+
+**Module:** `collider.physics.selection`
+
+Lepton quality, measured across the three 4ℓ files:
+
+| | ggH signal | ZZ background | **real data** |
+|---|---|---|---|
+| Leptons passing tight ID | 86.7% | 87.6% | **17.7%** |
+| Leptons passing tight isolation | 79.8% | 83.6% | **1.9%** |
+| Median \|d₀/σ\| | 0.65 | 0.67 | **1.48** |
+| Events after full selection | 125,272 / 424,880 | 4,491 / 11,458 | **1 / 3,708** |
+
+Raw data flavour composition is also unlike MC: 39% of data events are 1μ3e,
+a combination essentially absent from both simulated samples, and only 45%
+have net charge zero versus 97% in MC.
+
+**Interpretation.** The `4lep` skim requires four lepton *candidates*, not four
+good prompt leptons — it is deliberately loose so analyses can impose their own
+criteria. Real data at that stage is dominated by **fakes**: jets
+misreconstructed as electrons, and real leptons from heavy-flavour decays
+inside jets, whose large impact-parameter significance shows they do not come
+from the primary vertex.
+
+Our MC models only the **irreducible** background (genuine ZZ→4ℓ). It contains
+no fakes whatsoever.
+
+### Consequences
+
+1. **Raw data/MC comparison is meaningless.** The apparent excess is entirely
+   detector artefact, not new physics.
+2. **Selection must be identical everywhere.** A model trained on MC where 87%
+   of leptons are tight, then applied to data where 18% are, is being run far
+   outside its training distribution.
+3. A full fake-background estimate would require data-driven methods
+   (control regions with inverted identification), which is out of scope. The
+   honest position is that **this project models the irreducible background
+   only**, and says so.
+
+---
+
+## 5. The labelled dataset
+
+**Modules:** `collider.features.fourlepton`, `collider.features.dataset`
+
+After selection, at 36 fb⁻¹:
+
+| | rows | expected yield | negative wts | N_eff |
+|---|---|---|---|---|
+| ggH→ZZ→4ℓ | 125,272 | 15.68 | 0.22% | 118,876 |
+| ZZ→4ℓ | 4,491 | 587.87 | 8.86% | **1,443** |
+
+Physical ratio signal:background is **1 : 37.5**. Training ratio is set to
+**1 : 1**.
+
+### `m_4l` is deliberately excluded from the features
+
+The four-lepton mass is by far the most discriminating variable — signal
+median 124.4 GeV, background 231.1 GeV. Including it would yield a
+near-perfect classifier that has learned only "is it 125?".
+
+More importantly it would **sculpt** the background: cutting on a
+mass-dependent score carves a bump-shaped deficit into the very spectrum we
+would later fit for an excess. The mass is the measurement, so it must not be
+the thing we cut on. `m_4l` is computed and carried alongside for plotting and
+fitting, but never enters the model.
+
+### Feature separation (median difference in units of pooled σ)
+
+| Feature | Signal | Background | Separation |
+|---|---|---|---|
+| `m_z2` | 27.00 | 87.64 | **3.38** |
+| `m_z2_over_m_z1` | 0.309 | 0.964 | **2.06** |
+| `lep_pt_2` | 19.56 | 36.73 | 1.72 |
+| `lep_pt_3` | 12.05 | 22.97 | 1.72 |
+| `lep_pt_1` | 33.88 | 53.38 | 1.30 |
+| `lep_pt_0` | 49.03 | 74.68 | 0.90 |
+| `delta_phi_zz` | 1.82 | 2.41 | 0.61 |
+| `m_z1` | 88.07 | 90.60 | 0.21 |
+
+`m_z2` is the strongest discriminator, and the reason is pure physics: a
+125 GeV Higgs has too little mass to produce two on-shell Z bosons, so the
+second is virtual and light. Non-resonant ZZ production makes both on-shell.
+`m_z1` barely separates, exactly as expected — both processes contain one
+real Z.
+
+### Known limitation
+
+The background N_eff of 1,443 (from 4,491 rows) is thin. Uncertainties on
+background predictions will be correspondingly large, and additional ZZ
+samples should be added before any result is quoted seriously.
