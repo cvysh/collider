@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "sync:dialogue": "node -e \"require('fs').copyFileSync('../assets/dialogue/lines.json','lib/dialogue.json')\"",
+    "sync:dialogue": "node -e \"const fs=require('fs'),s='../assets/dialogue/lines.json';fs.existsSync(s)?fs.copyFileSync(s,'lib/dialogue.json'):console.log('dialogue: source outside build context, using committed lib/dialogue.json')\"",
     "sync:types": "openapi-typescript ../docs/openapi.json -o lib/api-types.ts",
     "predev": "npm run sync:dialogue",
     "prebuild": "npm run sync:dialogue"

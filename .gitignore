@@ -68,3 +68,5 @@ assets/reference/*
 web/.next/
 web/out/
 web/next-env.d.ts
+.vercel
+.env*

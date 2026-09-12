@@ -1,0 +1,17 @@
+# The API deployment needs the package and its processed artifacts, nothing
+# else. data/raw alone is 230 MB of ROOT files and never leaves this machine.
+web/
+tests/
+scripts/
+notebooks/
+docs/
+assets/
+data/raw/
+data/interim/
+.venv/
+.github/
+.ruff_cache/
+.pytest_cache/
+collider.egg-info/
+uv.lock
+Dockerfile

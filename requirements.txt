@@ -1,0 +1,5 @@
+# Serverless runtime only. The real dependency list is pyproject.toml; this
+# file exists because Vercel's Python builder installs from it. Keep it in step
+# with [project].dependencies there — the pipeline extras are not needed to serve.
+fastapi>=0.115
+pydantic>=2.9
