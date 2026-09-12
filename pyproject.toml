@@ -3,7 +3,20 @@ name = "collider"
 version = "0.1.0"
 description = "Interactive CERN Open Data + ML laboratory"
 requires-python = ">=3.12"
+# Runtime dependencies of the *deployed service* only. The API serves
+# precomputed artifacts and imports nothing heavier than Pydantic, so the
+# training and ingestion stack is not installed in production: it would add
+# ~1 GB of uproot, matplotlib and XGBoost for code the server never runs.
 dependencies = [
+    "pydantic>=2.9",    # typed, validated event schema at the API boundary
+    "fastapi>=0.115",   # API layer: typed request/response, OpenAPI for TS codegen
+    "uvicorn>=0.32",    # ASGI server
+]
+
+[project.optional-dependencies]
+# Everything that reads CERN data, trains models and makes figures. Needed to
+# reproduce the pipeline and to run the tests; never needed to serve the API.
+pipeline = [
     "uproot>=5.7",      # read ROOT files in pure Python, no ROOT/C++ install
     "awkward>=2",       # jagged arrays: variable-length objects per event
     "numpy>=2",
@@ -13,13 +26,9 @@ dependencies = [
     "requests>=2.32",   # same, plus plain downloads
     "scikit-learn>=1.5",# baseline models, metrics, preprocessing
     "xgboost>=2.1",     # gradient-boosted trees, the standard tabular strong baseline
-    "pydantic>=2.9",    # typed, validated event schema at the API boundary
-    "fastapi>=0.115",   # API layer: typed request/response, OpenAPI for TS codegen
-    "uvicorn>=0.32",    # ASGI server
 ]
-
-[project.optional-dependencies]
 dev = [
+    "collider[pipeline]",
     "pytest>=8",
     "ruff>=0.6",
     "ipykernel>=6",     # notebooks

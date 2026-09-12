@@ -6,6 +6,7 @@ data/interim/
 # without re-running the pipeline.
 data/processed/*
 !data/processed/events/
+!data/processed/distributions/
 *.root
 *.parquet
 *.h5
