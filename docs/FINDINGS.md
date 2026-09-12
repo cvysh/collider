@@ -388,3 +388,43 @@ express.
 
 Every quoted significance is limited by background MC statistics, not by the
 model. The next meaningful improvement is **more ZZ samples**, not more tuning.
+
+---
+
+## 8. The background sample cannot be enlarged — verified, not assumed
+
+The 4-lepton irreducible background is limited by what this release contains,
+not by our selection.
+
+- The MC 4ℓ record holds exactly **three** qq→ZZ→4ℓ samples (`llll`,
+  `lllljj`, `lllljj_Int`). All three are in use.
+- There are **no gg→ZZ samples** in the release.
+- The remaining `lllv` / `llvv` / `lvvv` samples are different final states,
+  not ZZ→4ℓ.
+
+### The no-skim record adds nothing
+
+Checked directly rather than assumed:
+
+| File | entries | `lep_n == 4` | passing full selection |
+|---|---|---|---|
+| `llll` 4lep skim | 11,458 | 11,260 | 4,536 |
+| `llll` **no skim** | 248,881 | **11,260** | **4,536** |
+
+Identical. The skim discards only events with fewer than four leptons, so it
+is lossless for this analysis. The 100 MB no-skim file was removed after the
+check.
+
+### Consequence
+
+Background N_eff inside the 115–130 GeV mass window is **14 (test split) /
+37.7 (full sample)** and cannot be raised with available data. Any statement
+about whether the classifier improves significance carries ~27% background
+uncertainty and will remain unresolvable here.
+
+Part of that sparseness is physical rather than statistical: ZZ→4ℓ below
+182 GeV is the off-shell tail, so the region under the Higgs peak is
+intrinsically thin.
+
+**This is a permanent, documented limitation of the project, not a task
+pending completion.**
