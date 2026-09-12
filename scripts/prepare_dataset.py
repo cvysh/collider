@@ -25,11 +25,19 @@ RAW = Path("data/raw/4lep")
 OUTPUT = Path("data/processed/fourlepton_v1.npz")
 LUMI_PB = 36_000.0
 
-SAMPLES = {
-    "signal": RAW
+SIGNAL_FILES = [
+    RAW
     / ("ODEO_FEB2025_v0_4lep_mc_345060.PowhegPythia8EvtGen_NNLOPS_nnlo_30_ggH125_ZZ4l.4lep.root"),
-    "background": RAW / "ODEO_FEB2025_v0_4lep_mc_700600.Sh_2212_llll.4lep.root",
-}
+]
+
+# Several ZZ processes make up the irreducible background. Each has its own
+# cross-section and sum_of_weights, so each must be normalised separately and
+# only then concatenated. A single combined normalisation would be wrong.
+BACKGROUND_FILES = [
+    RAW / "ODEO_FEB2025_v0_4lep_mc_700600.Sh_2212_llll.4lep.root",
+    RAW / "ODEO_FEB2025_v0_4lep_mc_700587.Sh_2212_lllljj.4lep.root",
+    RAW / "ODEO_FEB2025_v0_4lep_mc_700591.Sh_2212_lllljj_Int.4lep.root",
+]
 
 WEIGHT_READ = ["mcWeight", "xsec", "filteff", "kfac", "sum_of_weights", *SCALE_FACTOR_BRANCHES]
 
@@ -58,27 +66,47 @@ def load_sample(path: Path) -> dict:
     return result
 
 
-def main() -> None:
-    for path in SAMPLES.values():
+def load_group(paths: list[Path], label: str) -> dict:
+    """Normalise each sample independently, then concatenate."""
+    features, weights, m4l = [], [], []
+    for path in paths:
         if not path.exists():
             raise SystemExit(f"missing {path}; see data/raw/README.md")
-
-    parts = {name: load_sample(path) for name, path in SAMPLES.items()}
-    for name, part in parts.items():
+        part = load_sample(path)
+        features.append(part["features"])
+        weights.append(part["weights"])
+        m4l.append(part["m_4l"])
         w = part["weights"]
         print(
-            f"{name:11s} {part['n_input']:7,} -> {len(w):7,} selected  "
-            f"yield {w.sum():8.2f}  N_eff {effective_entries(w):8,.0f}  "
-            f"neg {(w < 0).mean():.2%}"
+            f"  {path.name[26:52]:28s} {part['n_input']:7,} -> {len(w):7,}  "
+            f"yield {w.sum():8.2f}  N_eff {effective_entries(w):7,.0f}  "
+            f"neg {(w < 0).mean():6.2%}"
         )
+    out = {
+        "features": np.vstack(features),
+        "weights": np.concatenate(weights),
+        "m_4l": np.concatenate(m4l),
+    }
+    print(
+        f"  {label.upper():28s} {'':7s}    {len(out['weights']):7,}  "
+        f"yield {out['weights'].sum():8.2f}  N_eff {effective_entries(out['weights']):7,.0f}\n"
+    )
+    return out
+
+
+def main() -> None:
+    print("signal:")
+    signal = load_group(SIGNAL_FILES, "signal total")
+    print("background:")
+    background = load_group(BACKGROUND_FILES, "background total")
 
     ds = build_dataset(
-        signal_features=parts["signal"]["features"],
-        signal_weights=parts["signal"]["weights"],
-        background_features=parts["background"]["features"],
-        background_weights=parts["background"]["weights"],
-        signal_m4l=parts["signal"]["m_4l"],
-        background_m4l=parts["background"]["m_4l"],
+        signal_features=signal["features"],
+        signal_weights=signal["weights"],
+        background_features=background["features"],
+        background_weights=background["weights"],
+        signal_m4l=signal["m_4l"],
+        background_m4l=background["m_4l"],
         feature_names=FEATURE_NAMES,
     )
 

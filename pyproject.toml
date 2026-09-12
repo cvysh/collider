@@ -12,6 +12,7 @@ dependencies = [
     "aiohttp>=3.10",    # fsspec HTTP backend: lets uproot stream ROOT files from CERN
     "requests>=2.32",   # same, plus plain downloads
     "scikit-learn>=1.5",# baseline models, metrics, preprocessing
+    "xgboost>=2.1",     # gradient-boosted trees, the standard tabular strong baseline
 ]
 
 [project.optional-dependencies]

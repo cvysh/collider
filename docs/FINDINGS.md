@@ -310,3 +310,81 @@ Signal is **ggF production only**; other Higgs production modes are excluded.
 Background is the **irreducible ZZ→4ℓ only** — no fakes, which real data is
 dominated by before selection. These numbers describe a simplified analysis on
 simulation and are not an ATLAS result.
+
+---
+
+## 7. XGBoost vs logistic regression — and a prediction that was wrong
+
+**Script:** `scripts/train_compare.py` · **Figure:** `figures/model_comparison.png`
+
+Identical features, split, and weights. Background enlarged to three ZZ
+samples (6,680 rows, N_eff 1,478).
+
+| | test AUC | Z (classifier alone) | Z (+ mass window) |
+|---|---|---|---|
+| mass window alone | — | — | 2.96 |
+| logistic regression | 0.9134 | 1.25 | 3.02 ± 0.42 |
+| **XGBoost** | **0.9882** | **3.10** | 3.15 ± 0.46 |
+
+### The prediction was wrong
+
+Before running this, the stated expectation was "a modest AUC gain, negligible
+significance gain, because the features are near their ceiling."
+
+**Discrimination improved enormously.** AUC 0.9134 → 0.9882; at 10% background
+efficiency the signal efficiency rises from roughly 55% to 97%. Classifier-only
+significance went 1.25 → 3.10, a factor of 2.5.
+
+The features were nowhere near their ceiling — the **linear model** was. The
+discriminating structure in `(m_z1, m_z2)` is non-linear and involves
+interactions that no linear decision boundary can express.
+
+### The combined significance is *not* measurable here
+
+The three combined numbers — 2.96, 3.02 ± 0.42, 3.15 ± 0.46 — are
+statistically indistinguishable. That is **not** evidence that XGBoost fails to
+help. It is a statement that our background sample cannot resolve the
+difference:
+
+| Region (test split, scaled) | rows | B | N_eff | rel. unc. |
+|---|---|---|---|---|
+| All selected | 1,360 | 618.8 | 288.4 | 6% |
+| Mass window 115–130 | 117 | 21.3 | **14.0** | **27%** |
+| Mass window 120–130 | 105 | 15.7 | 10.1 | 31% |
+
+"No effect" and "cannot measure the effect" are different claims, and only the
+second is supported.
+
+### Two guard bugs, found and fixed
+
+The threshold scan originally floored only the background **yield**. That
+admitted an optimum of Z = 4.21 resting on **5 rows with N_eff = 3** (~60%
+uncertainty).
+
+The first fix added a **row-count** floor. Also insufficient: the corrected
+optimum used 100 rows but still only **N_eff = 7**, because weights are
+unequal. Row count is not statistical content.
+
+The guard is now on **N_eff**, which is what sets the uncertainty
+(~1/√N_eff). `tests/test_metrics.py` includes a case where 1,000 rows carry
+N_eff < 2.
+
+### Permutation importance corrects the coefficient story
+
+| Feature | logreg | XGBoost |
+|---|---|---|
+| `m_z2` | 0.032 | **0.047** |
+| `m_z1` | 0.058 | 0.035 |
+| `pt_4l` | **0.090** | 0.005 |
+| `lep_pt_0` | 0.072 | 0.006 |
+
+Logistic regression leans hardest on `pt_4l` and `lep_pt_0` — the pair
+correlated at ρ = 0.78 whose *difference* it exploits as a crude proxy.
+XGBoost barely uses them (0.005) because it can use `m_z1` and `m_z2` directly
+and non-linearly. The linear model was compensating for what it could not
+express.
+
+### The binding constraint
+
+Every quoted significance is limited by background MC statistics, not by the
+model. The next meaningful improvement is **more ZZ samples**, not more tuning.

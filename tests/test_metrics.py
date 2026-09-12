@@ -54,7 +54,7 @@ def test_best_threshold_refuses_to_exhaust_the_background():
     labels = rng.integers(0, 2, n)
     scores = np.clip(rng.normal(labels * 1.5, 1.0), 0, None)
     weights = np.where(labels == 1, 0.02, 1.0)
-    best = best_threshold(scores, labels, weights, min_background=10.0)
+    best = best_threshold(scores, labels, weights, min_background=10.0, min_background_neff=1.0)
     assert best["background"] >= 10.0
 
 
@@ -69,8 +69,12 @@ def test_yield_scale_leaves_auc_alone_but_moves_significance():
     scores = np.clip(rng.normal(labels * 1.2, 1.0), 0, None)
     weights = np.where(labels == 1, 0.05, 1.0)
 
-    plain = evaluate(scores, labels, weights, min_background=5.0, yield_scale=1.0)
-    scaled = evaluate(scores, labels, weights, min_background=5.0, yield_scale=4.0)
+    plain = evaluate(
+        scores, labels, weights, min_background=5.0, min_background_neff=1.0, yield_scale=1.0
+    )
+    scaled = evaluate(
+        scores, labels, weights, min_background=5.0, min_background_neff=1.0, yield_scale=4.0
+    )
 
     assert scaled["roc_auc"] == pytest.approx(plain["roc_auc"])
     assert scaled["yield_signal_total"] == pytest.approx(4 * plain["yield_signal_total"])
@@ -86,7 +90,7 @@ def test_evaluate_handles_negative_weights():
     labels = rng.integers(0, 2, n)
     scores = rng.uniform(size=n)
     weights = np.where(rng.uniform(size=n) < 0.1, -1.0, 1.0)
-    out = evaluate(scores, labels, weights, min_background=5.0)
+    out = evaluate(scores, labels, weights, min_background=5.0, min_background_neff=1.0)
     assert np.isfinite(out["roc_auc"])
     assert 0.0 <= out["roc_auc"] <= 1.0
 
@@ -95,4 +99,41 @@ def test_perfect_separation_gives_auc_one():
     labels = np.array([0, 0, 1, 1])
     scores = np.array([0.1, 0.2, 0.8, 0.9])
     weights = np.ones(4)
-    assert evaluate(scores, labels, weights, min_background=0.0)["roc_auc"] == pytest.approx(1.0)
+    out = evaluate(scores, labels, weights, min_background=0.0, min_background_neff=0.0)
+    assert out["roc_auc"] == pytest.approx(1.0)
+
+
+def test_best_threshold_requires_enough_effective_background():
+    """The yield floor alone is not enough to make an estimate trustworthy.
+
+    A weighted background yield can look healthy while resting on a handful of
+    effective events. Constraining the yield -- or even the row count --
+    without constraining N_eff lets the scan report a significance built on
+    noise. Both mistakes were made and corrected in this project.
+    """
+    rng = np.random.default_rng(3)
+    n = 20_000
+    labels = rng.integers(0, 2, n)
+    scores = np.clip(rng.normal(labels * 2.0, 1.0), 0, None)
+    # Background carries large weights, so a few rows clear any yield floor.
+    weights = np.where(labels == 1, 0.05, 20.0)
+
+    loose = best_threshold(scores, labels, weights, min_background=1.0, min_background_neff=1.0)
+    strict = best_threshold(scores, labels, weights, min_background=1.0, min_background_neff=50.0)
+
+    assert loose["background_neff"] < 50
+    assert strict["background_neff"] >= 50
+    assert strict["significance"] <= loose["significance"]
+
+
+def test_row_count_is_not_effective_sample_size():
+    """Why the guard is on N_eff rather than on a row count.
+
+    Many rows with unequal weights can carry very little statistical content,
+    which is precisely the case that a row-count floor fails to catch.
+    """
+    from collider.physics.weights import effective_entries
+
+    many_rows_uneven = np.concatenate([[10.0], np.full(999, 0.001)])
+    assert len(many_rows_uneven) == 1000
+    assert effective_entries(many_rows_uneven) < 2.0

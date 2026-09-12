@@ -29,6 +29,8 @@ from __future__ import annotations
 import numpy as np
 from sklearn.metrics import roc_auc_score, roc_curve
 
+from collider.physics.weights import effective_entries
+
 __all__ = [
     "asimov_significance",
     "best_threshold",
@@ -78,6 +80,7 @@ def best_threshold(
     weights: np.ndarray,
     *,
     min_background: float = 1.0,
+    min_background_neff: float = 25.0,
     n_steps: int = 200,
 ) -> dict[str, float]:
     """Scan thresholds and return the one maximising Asimov significance.
@@ -88,11 +91,19 @@ def best_threshold(
     search actually asks -- unlike accuracy or F1, which answer nothing in
     particular here.
 
-    ``min_background`` guards against the degenerate optimum. As the threshold
-    rises the surviving background eventually falls to a handful of simulated
-    events, and the formula rewards that with a spuriously enormous
-    significance. Requiring a minimum expected background keeps the answer in
-    the region where the simulation still has something to say.
+    Two separate guards are needed against the degenerate optimum, and
+    constraining only the first is a trap this project fell into:
+
+    ``min_background``
+        A floor on the expected background *yield*.
+
+    ``min_background_neff``
+        A floor on the *effective* sample size behind that yield. Note this is
+        ``N_eff``, not a row count: 100 rows with unequal weights routinely
+        carry an effective sample size of under 10, and it is ``N_eff`` that
+        sets the uncertainty (roughly ``1/sqrt(N_eff)``). Guarding the yield
+        alone, or even the row count, still admits optima resting on noise --
+        both mistakes were made and corrected in this project.
     """
     candidates = np.quantile(scores, np.linspace(0.0, 1.0, n_steps))
     best = {
@@ -100,11 +111,16 @@ def best_threshold(
         "significance": 0.0,
         "signal": 0.0,
         "background": 0.0,
+        "background_rows": 0.0,
+        "background_neff": 0.0,
     }
 
+    is_background = labels == 0
     for threshold in np.unique(candidates):
         s, b = yields_above(scores, labels, weights, threshold)
-        if b < min_background:
+        surviving_background = is_background & (scores >= threshold)
+        n_eff = effective_entries(weights[surviving_background])
+        if b < min_background or n_eff < min_background_neff:
             continue
         z = asimov_significance(s, b)
         if z > best["significance"]:
@@ -113,6 +129,8 @@ def best_threshold(
                 "significance": z,
                 "signal": s,
                 "background": b,
+                "background_rows": float(surviving_background.sum()),
+                "background_neff": float(n_eff),
             }
     return best
 
@@ -123,6 +141,7 @@ def evaluate(
     weights: np.ndarray,
     *,
     min_background: float = 1.0,
+    min_background_neff: float = 25.0,
     yield_scale: float = 1.0,
 ) -> dict[str, float]:
     """Full weighted evaluation of a set of scores.
@@ -151,7 +170,13 @@ def evaluate(
     scaled = weights * yield_scale
     baseline_s = float(scaled[labels == 1].sum())
     baseline_b = float(scaled[labels == 0].sum())
-    best = best_threshold(scores, labels, scaled, min_background=min_background)
+    best = best_threshold(
+        scores,
+        labels,
+        scaled,
+        min_background=min_background,
+        min_background_neff=min_background_neff,
+    )
 
     return {
         "roc_auc": auc,
