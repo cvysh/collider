@@ -5,5 +5,6 @@
       "includeFiles": "{src,data/processed,ml/models}/**"
     }
   },
-  "rewrites": [{ "source": "/api/(.*)", "destination": "/api/index" }]
+  "redirects": [{ "source": "/", "destination": "/docs" }],
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
 }
