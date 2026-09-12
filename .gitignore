@@ -51,3 +51,7 @@ out/
 .DS_Store
 .vscode/
 .idea/
+
+# Visual reference material is for local use only, never committed.
+assets/reference/*
+!assets/reference/README.md
