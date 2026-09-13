@@ -49,12 +49,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Pinned to Vercel's default build image rather than to whatever is on
-      # the developer's machine: this job exists to predict the deploy.
+      # Pinned to the Node version the Vercel projects actually run (checked
+      # with `vercel project inspect`), not to whatever is on the developer's
+      # machine: this job exists to predict the deploy, so a mismatch here
+      # would let CI pass on something the deploy then rejects.
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: web/package-lock.json
 
