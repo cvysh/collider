@@ -31,7 +31,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Annotated, Literal
 
-from fastapi import Depends, FastAPI, HTTPException, Query, Response
+from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response
 from pydantic import BaseModel, Field
 
 from collider.api.schema import EventPayload, EventSummary
@@ -115,6 +115,30 @@ def create_app() -> FastAPI:
             "score, not a probability."
         ),
     )
+
+    # TEMPORARY DIAGNOSTIC -- remove once the cache question is settled.
+    #
+    # Production returns `public, max-age=0, must-revalidate` on every route,
+    # including /api/health, which sets no Cache-Control at all. Identical
+    # output from a route that sets the header and one that does not means the
+    # app's value is not reaching the edge. Two causes need different fixes:
+    #
+    #   Cache-Intent present, Cache-Control still Vercel's default
+    #       -> our headers arrive; only Cache-Control is being overridden.
+    #          Fix by configuring the platform (a `headers` block, or the
+    #          CDN-Cache-Control family, which Vercel reads separately).
+    #
+    #   Cache-Intent absent
+    #       -> custom response headers are dropped before the edge. The
+    #          problem is the runtime/adapter, not the cache policy.
+    #
+    # The middleware runs after the route handler, so it observes whatever
+    # Cache-Control that handler set -- or "none" where it set nothing.
+    @app.middleware("http")
+    async def _echo_cache_intent(request: Request, call_next):
+        response = await call_next(request)
+        response.headers["X-Collider-Cache-Intent"] = response.headers.get("cache-control", "none")
+        return response
 
     @app.get("/api/health")
     def health() -> dict[str, str]:
