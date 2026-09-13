@@ -38,3 +38,54 @@ jobs:
       # downstream result can be trusted.
       - name: Tests
         run: uv run pytest -v
+
+  # The frontend deploys to Vercel on push. Without this job a type error only
+  # surfaces when Vercel builds, by which point main already holds the break.
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      # Pinned to Vercel's default build image rather than to whatever is on
+      # the developer's machine: this job exists to predict the deploy.
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      # `ci`, not `install`: installs the lockfile exactly and fails if
+      # package.json and the lockfile disagree.
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      # Two files under web/lib are generated from sources outside web/:
+      # lib/api-types.ts from docs/openapi.json, and lib/dialogue.json from
+      # assets/dialogue/lines.json. Both are committed, so both can go stale.
+      # A stale api-types.ts still compiles -- it is a coherent description of
+      # an API that no longer exists -- and deploys, which is the failure this
+      # step exists to catch.
+      #
+      # It must run BEFORE the build: `prebuild` invokes sync:dialogue, which
+      # would quietly repair the drift and let the build pass.
+      - name: Generated files match their sources
+        run: |
+          npm run sync:types
+          npm run sync:dialogue
+          if ! git diff --exit-code -- lib/api-types.ts lib/dialogue.json; then
+            echo "::error::web/lib is stale. Run 'npm run sync:types && npm run sync:dialogue' in web/ and commit the result."
+            exit 1
+          fi
+
+      - name: Build
+        run: npm run build
