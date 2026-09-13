@@ -1,6 +1,15 @@
-# The API deployment needs the package and its processed artifacts, nothing
-# else. data/raw alone is 230 MB of ROOT files and never leaves this machine.
-web/
+# SHARED BY BOTH VERCEL PROJECTS. Vercel reads this file from the repository
+# root for every project built from this repo, whatever its Root Directory --
+# so an entry here that suits collider-api can delete the app collider needs.
+# `web/` was listed here while the API was the only thing deployed from this
+# repo; once collider was git-connected it stripped the Next.js app before the
+# build could find it, and the deploy failed with "No Next.js version
+# detected". Keep exclusions here to paths neither project builds from.
+#
+# The API function stays small regardless: vercel.json whitelists its bundle
+# with includeFiles, so this file governs the upload, not the function.
+# data/raw alone is 230 MB of ROOT files and never leaves this machine.
+web/.next/
 tests/
 scripts/
 notebooks/
